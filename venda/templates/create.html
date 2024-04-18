@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form method="post">
+  {% csrf_token %}
+
+  <div class="row">
+    <!-- SELECT DO CLIENTE -->
+    <div class="col-lg-8 mb-3">
+      <h5 class="fw-bold text-warning">Cliente</h5>
+      <select class="form-select fw-bold" id="select-cliente" name="select-cliente" aria-label="Selecione o cliente" onchange="selecionar_cliente(this.value)" autofocus>
+        <option value="" selected>Selecione seu cliente...</option>
+        {% for cliente in clientes %}
+          <option value="{{ cliente.id }}">{{ cliente.nome }} - {{ cliente.endereco }}</option>
+        {% endfor %}
+      </select>
+
+      {% for cliente in clientes %}
+        <div class="div-card-clientes div-card-cliente-{{ cliente.id }} mx-2 mt-3 p-1 d-none">
+          <div class="row">
+            <div class="col">
+              <!--h6>ID: {{ cliente.id }} - {{ cliente.nome }}</h6-->
+              <strong class="text-secondary fst-italic">CNPJ: {{ cliente.cnpj }}</strong>
+              <p class="fw-lighter mb-1">
+                  Endereço: {{ cliente.endereco }} - {{ cliente.bairro }}<br />
+                  Cidade {{ cliente.cidade }} - {{ cliente.estado }}<br />
+                  CEP: {{ cliente.cep }}
+              </p>
+            </div>
+            <div class="col">
+              <small><strong>Contato: {{ cliente.contato }}</strong></small>
+              <p class="mb-0">
+                tel: {{ cliente.telefone }}<br />
+                e-mail: {{ cliente.email }}
+              </p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- REPRESENTANTE -->
+    <div class="col-lg-4 mb-3">
+      <h5 class="fw-bold text-warning">Representante</h5>
+      <input type="text" class="form-control" value="{{  representante.nome  }}" disabled readonly>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- CARDS DOS PRODUTOS -->
+    <div class="col-lg-6 mb-3">
+      <h5 class="fw-bold text-warning">Produtos</h5>
+      <div class="row overflow-y-auto card-produtos" style="height: 580px">
+        {% for produto in produtos %}
+          <div class="col-md-6 p-2">
+            <div class="card border-warning h-100">
+              <div class="card-header bg-warning-subtle">
+                <h6 class="card-title">{{ produto.descricao }}</h6>
+              </div>
+              <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-body-secondary">{{ produto.marca }}</h6>
+                <small><strong>{{ produto.categoria }}</strong></small><br />
+                preco_compra: R$ {{ produto.preco_compra }}
+              </div>
+              <div class="card-footer">
+                <div class="input-group" id="div-produto-{{ produto.id }}" data-id="{{ produto.id }}" data-descricao="{{ produto.descricao }}" data-preco_compra="{{ produto.preco_compra }}">
+                  <button class="btn btn-outline-secondary px-3" type="button" onclick="atualizar_pedido(this.parentElement, -1)"><i class="fa-solid fa-minus"></i></button>
+                  <input type="text" class="form-control text-center" id="input-produto-{{ produto.id }}" value="0" readonly>
+                  <button class="btn btn-outline-secondary px-3" type="button" onclick="atualizar_pedido(this.parentElement, 1)"><i class="fa-solid fa-plus"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- TABELA DOS PEDIDOS -->
+    <div class="col-lg-6 mb-3">
+      <h5 class="fw-bold text-warning">Pedidos</h5>
+      <table class="table shadow" id="table-pedido">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Produto</th>
+            <th scope="col">Quantidade</th>
+            <th scope="col">Total</th>
+          </tr>
+        </thead>
+        <tbody class="table-group-divider">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="mt-4 mb-0">
+    <div class="d-grid">
+      <input class="btn btn-primary btn-block" type="submit" value="Enviar pedido" />
+    </div>
+  </div>
+</form>
+
+<script>
+  const selecionar_cliente = (val) => {
+    document.querySelectorAll('.div-card-clientes').forEach(div => {
+      div.classList.add('d-none')
+    })
+    if (val == '') return
+    document.querySelector(`.div-card-cliente-${val}`).classList.toggle('d-none')
+  }
+
+  const atualizar_pedido = (ele, quant) => {
+    let prod = ele.dataset
+    let pedi = document.querySelector(`#pedido-${prod.id}`)
+    let quantidade = 0
+
+    if (!pedi) {
+      pedi = document.querySelector("#table-pedido > tbody").insertRow()
+      pedi.id = `pedido-${prod.id}`
+      pedi.innerHTML = `
+        <th scope="row">${prod.id}</th>
+        <td>${prod.descricao}</td>
+        <td>${quantidade}</td>
+        <td>${prod.preco_compra}</td>
+        <td style="width:5%; text-align: center;">
+          <a href="javascript: excluir(${prod.id})" title="Excluir">
+            <i class="fa fa-trash-alt" aria-hidden="true"></i>
+          </a>
+        </td>
+        <input type="hidden" id="hidden-pedidos-${prod.id}" name="hidden-pedidos[${prod.id}]" value="${quantidade}">`
+    }
+
+    quantidade = parseInt(pedi.children[2].innerText) + quant
+    document.querySelector(`#hidden-pedidos-${prod.id}`).value = quantidade
+
+    if (quantidade > 0) {
+      pedi.children[2].innerText = quantidade
+    } else {
+      document.querySelector("#table-pedido").deleteRow(pedi.rowIndex)
+      quantidade = 0
+    }
+
+    ele.querySelector('input').value = quantidade
+
+    if (document.querySelector('#table-pedido').offsetHeight > 580) {
+      let h = document.querySelector('#table-pedido').offsetHeight
+      document.querySelector('div.card-produtos').style.height = `${h}px`
+    }
+  }
+
+  const excluir = (prod_id) => {
+    let pedi = document.querySelector(`#pedido-${prod_id}`)
+    document.querySelector("#table-pedido").deleteRow(pedi.rowIndex)
+    document.querySelector(`#input-produto-${prod_id}`).value = 0
+  }
+</script>
+{% endblock %}
