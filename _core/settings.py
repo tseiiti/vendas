@@ -67,10 +67,6 @@ WSGI_APPLICATION = '_core.wsgi.application'
 
 DATABASES = {
   'default': {
-    'ENGINE': 'django.db.backends.sqlite3',
-    'NAME': BASE_DIR / 'db.sqlite3',
-  },
-  'vendas': {
     'ENGINE': 'djongo',
     'NAME': 'vendas',
     'CLIENT': {
@@ -78,8 +74,6 @@ DATABASES = {
     }
   }
 }
-DATABASE_ROUTERS = ['_core.router.VendasRouter']
-DATABASE_APPS_MAPPING = {'vendas': 'vendas'}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -97,6 +91,12 @@ AUTH_PASSWORD_VALIDATORS = [
   # {
   #   'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
   # },
+  {
+    "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+    "OPTIONS": {
+      "min_length": 3,
+    },
+  },
 ]
 
 

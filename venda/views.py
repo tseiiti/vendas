@@ -3,10 +3,8 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from urllib.request import urlopen
 import json
-import pymongo
 
 from .models import Representante, Cliente, Pedido
-from .utils import to_d
 
 def home(request):
   return render(request, "home.html")
