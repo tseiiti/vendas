@@ -25,6 +25,7 @@ class Cliente(models.Model):
 
 class ItemPedido(models.Model):
   class Meta: abstract = True
+  id = models.IntegerField()
   descricao = models.CharField(max_length = 255)
   categoria = models.CharField(max_length = 255)
   marca = models.CharField(max_length = 255)

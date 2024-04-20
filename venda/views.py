@@ -8,78 +8,111 @@ import json
 from .models import Representante, Cliente, Pedido
 
 def home(request):
-  return render(request, "home.html")
+  return render(request, "home.html", { "title": "Home", })
 
 @login_required(login_url = '/admin/login/')
 def list(request):
   representante = Representante.objects.filter(user = request.user).first()
   context = {
-    'representante': representante,
-    'pedidos': Pedido.objects.all()
+    "title": "Listar Pedidos", 
+    "representante": representante,
+    "pedidos": Pedido.objects.all()
   }
   return render(request, "list.html", context)
 
-@login_required(login_url = '/admin/login/')
+@login_required(login_url = "/admin/login/")
 def create(request):
   representante = Representante.objects.filter(user = request.user).first()
+  clientes = Cliente.objects.filter(representante = representante)
 
-  url = 'http://localhost:8000/estoque/consulta'
+  url = "http://localhost:8000/estoque/consulta"
   response = urlopen(url)
   produtos = json.loads(response.read())
 
   if request.method == "GET":
     context = {
-      'representante': representante,
-      'clientes': Cliente.objects.filter(representante = representante),
-      'produtos': produtos,
+      "title": "Cadastrar Pedidos", 
+      "representante": representante,
+      "clientes": clientes,
+      "produtos": produtos,
     }
     return render(request, "create.html", context)
   else:
     post = request.POST
-    cliente_id = post.get("select-cliente")
-
+    
     pedido = Pedido()
+
     pedido.horario = datetime.now()
     pedido.representante = representante
-    pedido.cliente = Cliente.objects.get(id = cliente_id)
+    pedido.cliente = Cliente.objects.get(id = post.get("select-cliente"))
+    pedido.total = post.get("input-total")
     itens_pedido = []
-    total = 0
     for k in dict(post).keys():
       if "hidden-pedidos" in k:
         id = int(k.replace("hidden-pedidos[", "").replace("]", ""))
         qtd = post.get(k)
         prd = next(item for item in produtos if item["id"] == id)
         item = {
-          "id": prd['id'],
-          "descricao": prd['descricao'],
-          "categoria": prd['categoria'],
-          "marca": prd['marca'],
+          "id": prd["id"],
+          "descricao": prd["descricao"],
+          "categoria": prd["categoria"],
+          "marca": prd["marca"],
           "quantidade": qtd,
-          "preco_compra": prd['preco_compra'],
+          "preco_compra": prd["preco_compra"],
         }
         itens_pedido.append(item)
-        total += int(qtd) * prd['preco_compra']
     pedido.itens_pedido = itens_pedido
-    pedido.total = total
     pedido.save()
     return redirect("venda:list")
 
-def detail(request, id):
-  return HttpResponse('detail')
-
-@login_required(login_url = '/admin/login/')
+@login_required(login_url = "/admin/login/")
 def update(request, id):
   representante = Representante.objects.filter(user = request.user).first()
+  clientes = Cliente.objects.filter(representante = representante)
+  pedido = Pedido.objects.filter(id = id).first()
 
-  url = 'http://localhost:8000/estoque/consulta'
+  url = "http://localhost:8000/estoque/consulta"
   response = urlopen(url)
   produtos = json.loads(response.read())
 
   if request.method == "GET":
     context = {
-      'representante': representante,
-      'clientes': Cliente.objects.filter(representante = representante),
-      'produtos': produtos,
+      "title": "Atualizar Pedidos", 
+      "representante": representante,
+      "clientes": clientes,
+      "produtos": produtos,
+      "pedido": pedido,
     }
     return render(request, "update.html", context)
-  return HttpResponse('update')
+  else:
+    post = request.POST
+
+    pedido = Pedido.objects.get(id = id)
+
+    pedido.horario = datetime.now()
+    pedido.representante = representante
+    pedido.cliente = Cliente.objects.get(id = post.get("select-cliente"))
+    pedido.total = post.get("input-total")
+    print(post.get("input-total"))
+    print(post.get("select-cliente"))
+    itens_pedido = []
+    for k in dict(post).keys():
+      if "hidden-pedidos" in k:
+        id = int(k.replace("hidden-pedidos[", "").replace("]", ""))
+        qtd = post.get(k)
+        prd = next(item for item in produtos if item["id"] == id)
+        item = {
+          "id": prd["id"],
+          "descricao": prd["descricao"],
+          "categoria": prd["categoria"],
+          "marca": prd["marca"],
+          "quantidade": qtd,
+          "preco_compra": prd["preco_compra"],
+        }
+        itens_pedido.append(item)
+    pedido.itens_pedido = itens_pedido
+    pedido.save()
+    return redirect("venda:list")
+
+def detail(request, id):
+  return HttpResponse("detail")
