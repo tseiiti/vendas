@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% include "form.html" %}
+<script>
+  let select = document.querySelector('#select-cliente')
+  select.value = '{{ pedido.cliente.id }}'
+  select.dispatchEvent(new Event('change'))
+
+  {% for item in pedido.itens_pedido %}
+  atualizar_pedido({{ item.id }}, {{ item.quantidade }})
+  {% endfor %}
+
+  qs('#select-cliente').disabled = true
+  qsa('button').forEach((b) => {
+    b.disabled = true
+  })
+  qsa('a.trash').forEach((a) => {
+    a.href = '#'
+  })
+</script>
+{% endblock %}

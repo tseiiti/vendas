@@ -38,4 +38,10 @@ class Pedido(models.Model):
   itens_pedido = models.ArrayField(model_container = ItemPedido)
   horario = models.DateTimeField("horário")
   total = models.FloatField()
-  
+  class Meta:
+    permissions = [
+      ("can_list", "Pode listar os pedidos"),
+      ("can_create", "Pode criar um novo pedido"),
+      ("can_update", "Pode atualizar um pedido existente"),
+      ("can_detail", "Pode visualizar os detalhes de um pedido"),
+    ]

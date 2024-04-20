@@ -16,7 +16,8 @@
         <th scope="col">#</th>
         <th scope="col">Cliente</th>
         <th scope="col">Horário</th>
-        <th scope="col">Total</th>
+        <th scope="col">Total R$</th>
+        <th style="width:2%; text-align: center;"></th>
         <th style="width:5%; text-align: center;"></th>
       </tr>
     </thead>
@@ -25,8 +26,9 @@
       <tr>
         <th scope="row">{{ pedido.id }}</th>
         <td>{{ pedido.cliente }}</td>
-        <td>{{ pedido.horario | date:'d/m/Y H:i' }}</td>
+        <td>{{ pedido.horario | date:'d/m H:i' }}</td>
         <td>{{ pedido.total | localize }}</td>
+        <td style="width:2%; text-align: center;"><a href="{% url 'venda:detail' id=pedido.id %}" title="Visualizar"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
         <td style="width:5%; text-align: center;"><a href="{% url 'venda:update' id=pedido.id %}" title="Editar"><i class="fa fa-edit" aria-hidden="true"></i></a></td>
       </tr>
       {% endfor %}

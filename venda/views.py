@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from urllib.request import urlopen
@@ -7,7 +7,52 @@ import json
 
 from .models import Representante, Cliente, Pedido
 
+def home(request):
+  return render(request, "home.html", { "title": "Home", })
 
+@permission_required("venda.can_list")
+def list(request):
+  representante = Representante.objects.filter(user = request.user).first()
+  context = {
+    "title": "Listar Pedidos", 
+    "representante": representante,
+    "pedidos": Pedido.objects.order_by("-horario")[:50], 
+  }
+  return render(request, "list.html", context)
+  
+@permission_required("venda.can_create")
+def create(request):
+  if request.method == "GET":
+    context = get_context(request)
+    return render(request, "create.html", context)
+  else:
+    pedido = Pedido()
+    save_pedido(request, pedido)
+    return redirect("venda:list")
+
+@permission_required("venda.can_update")
+def update(request, id):
+  pedido = Pedido.objects.filter(id = id).first()
+  if request.method == "GET":
+    context = get_context(request)
+    context["pedido"] = pedido
+    return render(request, "update.html", context)
+  else:
+    save_pedido(request, pedido)
+    return redirect("venda:list")
+
+@permission_required("venda.can_detail")
+def detail(request, id):
+  pedido = Pedido.objects.filter(id = id).first()
+  context = get_context(request)
+  context["pedido"] = pedido
+  return render(request, "detail.html", context)
+
+
+
+#################
+# auxiliares 
+#################
 def get_basics(request):
   representante = Representante.objects.filter(user = request.user).first()
   url = "http://localhost:8000/estoque/consulta"
@@ -51,40 +96,3 @@ def save_pedido(request, pedido):
       itens_pedido.append(item)
   pedido.itens_pedido = itens_pedido
   pedido.save()
-
-def home(request):
-  return render(request, "home.html", { "title": "Home", })
-
-@login_required(login_url = '/admin/login/')
-def list(request):
-  representante = Representante.objects.filter(user = request.user).first()
-  context = {
-    "title": "Listar Pedidos", 
-    "representante": representante,
-    "pedidos": Pedido.objects.all()
-  }
-  return render(request, "list.html", context)
-  
-@login_required(login_url = "/admin/login/")
-def create(request):
-  if request.method == "GET":
-    context = get_context(request)
-    return render(request, "create.html", context)
-  else:
-    pedido = Pedido()
-    save_pedido(request, pedido)
-    return redirect("venda:list")
-
-@login_required(login_url = "/admin/login/")
-def update(request, id):
-  pedido = Pedido.objects.filter(id = id).first()
-  if request.method == "GET":
-    context = get_context(request)
-    context["pedido"] = pedido
-    return render(request, "update.html", context)
-  else:
-    save_pedido(request, pedido)
-    return redirect("venda:list")
-
-def detail(request, id):
-  return HttpResponse("detail")
