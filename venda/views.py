@@ -11,13 +11,13 @@ def home(request):
   return render(request, "home.html")
 
 @login_required(login_url = '/admin/login/')
-def index(request):
+def list(request):
   representante = Representante.objects.filter(user = request.user).first()
   context = {
     'representante': representante,
     'pedidos': Pedido.objects.all()
   }
-  return render(request, "index.html", context)
+  return render(request, "list.html", context)
 
 @login_required(login_url = '/admin/login/')
 def create(request):
@@ -62,7 +62,7 @@ def create(request):
     pedido.itens_pedido = itens_pedido
     pedido.total = total
     pedido.save()
-    return redirect("venda:index")
+    return redirect("venda:list")
 
 def detail(request, id):
   return HttpResponse('detail')
