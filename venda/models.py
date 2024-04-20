@@ -24,17 +24,17 @@ class Cliente(models.Model):
   def __str__(self): return self.nome
 
 class ItemPedido(models.Model):
+  class Meta: abstract = True
   descricao = models.CharField(max_length = 255)
   categoria = models.CharField(max_length = 255)
   marca = models.CharField(max_length = 255)
   quantidade = models.IntegerField()
   preco_compra = models.FloatField()
-  def __str__(self): return self.nome
-  class Meta: abstract = True
 
 class Pedido(models.Model):
-  representante = models.ForeignKey(Representante, on_delete=models.RESTRICT)
-  cliente = models.ForeignKey(Cliente, on_delete=models.RESTRICT)
-  itens_pedido = models.ArrayField(
-    model_container = ItemPedido
-  )
+  representante = models.ForeignKey(Representante, on_delete = models.RESTRICT)
+  cliente = models.ForeignKey(Cliente, on_delete = models.RESTRICT)
+  itens_pedido = models.ArrayField(model_container = ItemPedido)
+  horario = models.DateTimeField("horário")
+  total = models.FloatField()
+  
