@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load l10n %}
 
 {% block content %}
 <!-- REPRESENTANTE -->
@@ -25,7 +26,7 @@
         <th scope="row">{{ pedido.id }}</th>
         <td>{{ pedido.cliente }}</td>
         <td>{{ pedido.horario | date:'d/m/Y H:i' }}</td>
-        <td>{{ pedido.total }}</td>
+        <td>{{ pedido.total | localize }}</td>
         <td style="width:5%; text-align: center;"><a href="{% url 'venda:update' id=pedido.id %}" title="Editar"><i class="fa fa-edit" aria-hidden="true"></i></a></td>
       </tr>
       {% endfor %}
