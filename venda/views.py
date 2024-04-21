@@ -16,7 +16,7 @@ def list(request):
   context = {
     "title": "Listar Pedidos", 
     "representante": representante,
-    "pedidos": Pedido.objects.order_by("-horario")[:50], 
+    "pedidos": Pedido.objects.filter(representante = representante).order_by("-horario")[:50], 
   }
   return render(request, "list.html", context)
   
@@ -24,6 +24,7 @@ def list(request):
 def create(request):
   if request.method == "GET":
     context = get_context(request)
+    context["title"] = "Cadastrar Pedido"
     return render(request, "create.html", context)
   else:
     pedido = Pedido()
@@ -32,20 +33,18 @@ def create(request):
 
 @permission_required("venda.can_update")
 def update(request, id):
-  pedido = Pedido.objects.filter(id = id).first()
+  context = get_context(request, id)
   if request.method == "GET":
-    context = get_context(request)
-    context["pedido"] = pedido
+    context["title"] = "Alterar Pedido"
     return render(request, "update.html", context)
   else:
-    save_pedido(request, pedido)
+    save_pedido(request, context["pedido"])
     return redirect("venda:list")
 
 @permission_required("venda.can_detail")
 def detail(request, id):
-  pedido = Pedido.objects.filter(id = id).first()
-  context = get_context(request)
-  context["pedido"] = pedido
+  context = get_context(request, id)
+  context["title"] = "Visualizar Pedido"
   return render(request, "detail.html", context)
 
 @permission_required("venda.can_preco_venda")
@@ -66,15 +65,16 @@ def preco_venda(request):
 #################
 # private 
 #################
-def get_context(request):
+def get_context(request, id = None):
   representante = Representante.objects.filter(user = request.user).first()
+  pedido = Pedido.objects.filter(id = id, representante = representante).first()
   clientes = Cliente.objects.filter(representante = representante)
   produtos = Produto.objects.all()
   context = {
-    "title": "Cadastrar Pedidos", 
     "representante": representante,
     "clientes": clientes,
     "produtos": produtos,
+    "pedido": pedido,
   }
   return context
 
