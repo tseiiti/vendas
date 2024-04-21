@@ -35,7 +35,7 @@ const atualizar_pedido = (id, quant) => {
 
   if (quantidade > 0) {
     pedi.children[2].innerText = quantidade
-    pedi.children[3].innerText = to_din(quantidade * prod.preco_compra)
+    pedi.children[3].innerText = to_din(quantidade * prod.preco)
   } else {
     qs('#table-pedido').deleteRow(pedi.rowIndex)
     quantidade = 0

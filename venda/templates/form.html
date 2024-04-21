@@ -59,10 +59,10 @@
             <div class="card-body">
               <h6 class="card-subtitle mb-2 text-body-secondary">{{ produto.marca }}</h6>
               <small><strong>{{ produto.categoria }}</strong></small><br />
-              preco: R$<span class="dinheiro">{{ produto.preco_compra | localize }}</span>
+              preço: R$ <span class="dinheiro">{{ produto.preco_venda | localize }}</span>
             </div>
             <div class="card-footer">
-              <div class="input-group" id="div-produto-{{ produto.id }}" data-id="{{ produto.id }}" data-descricao="{{ produto.descricao }}" data-preco_compra="{{ produto.preco_compra }}">
+              <div class="input-group" id="div-produto-{{ produto.id }}" data-id="{{ produto.id }}" data-descricao="{{ produto.descricao }}" data-preco="{{ produto.preco_venda }}">
                 <button class="btn btn-outline-secondary px-3" type="button" onclick="atualizar_pedido('{{ produto.id }}', -1)"><i class="fa-solid fa-minus"></i></button>
                 <input type="text" class="form-control text-center" id="input-produto-{{ produto.id }}" value="0" readonly>
                 <button class="btn btn-outline-secondary px-3" type="button" onclick="atualizar_pedido('{{ produto.id }}', 1)"><i class="fa-solid fa-plus"></i></button>

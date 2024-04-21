@@ -14,7 +14,6 @@ def consulta(request):
         "marca": e.produto.marca.nome,
         "quantidade": e.quantidade,
         "preco_compra": e.preco_compra,
-        "disponivel": True if e.quantidade > 0 else False,
       })
   return HttpResponse(json.dumps(data), content_type = "application/json")
 

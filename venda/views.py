@@ -1,11 +1,11 @@
-from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from urllib.request import urlopen
 from datetime import datetime
 import json
 
-from .models import Representante, Cliente, Pedido
+from .models import Representante, Cliente, Produto, Pedido
 
 def home(request):
   return render(request, "home.html", { "title": "Home", })
@@ -48,21 +48,28 @@ def detail(request, id):
   context["pedido"] = pedido
   return render(request, "detail.html", context)
 
-
-
-#################
-# auxiliares 
-#################
-def get_basics(request):
-  representante = Representante.objects.filter(user = request.user).first()
+@permission_required("venda.can_preco_venda")
+def preco_venda(request):
   url = "http://localhost:8000/estoque/consulta"
   response = urlopen(url)
-  produtos = json.loads(response.read())
-  return representante, produtos
+  estoque = json.loads(response.read())
+  for e in estoque:
+    prod = Produto.objects.filter(id = e['id']).first()
+    if not prod:
+      prod = Produto(**e)
+      prod.preco_venda = prod.preco_compra * 2
+      prod.save()
+  return redirect("/admin/venda/produto/")
 
+
+
+#################
+# private 
+#################
 def get_context(request):
-  representante, produtos = get_basics(request)
+  representante = Representante.objects.filter(user = request.user).first()
   clientes = Cliente.objects.filter(representante = representante)
+  produtos = Produto.objects.all()
   context = {
     "title": "Cadastrar Pedidos", 
     "representante": representante,
@@ -73,25 +80,23 @@ def get_context(request):
 
 def save_pedido(request, pedido):
   post = request.POST
-  representante, produtos = get_basics(request)
-
   pedido.horario = datetime.now()
-  pedido.representante = representante
+  pedido.representante = Representante.objects.get(user = request.user)
   pedido.cliente = Cliente.objects.get(id = post.get("select-cliente"))
   pedido.total = post.get("input-total").replace(",", ".")
   itens_pedido = []
   for k in dict(post).keys():
     if "hidden-pedidos" in k:
-      id = int(k.replace("hidden-pedidos[", "").replace("]", ""))
-      qtd = post.get(k)
-      prd = next(item for item in produtos if item["id"] == id)
+      id = k.replace("hidden-pedidos[", "").replace("]", "")
+      qtd = int(post.get(k))
+      prd = Produto.objects.get(id = id)
       item = {
-        "id": prd["id"],
-        "descricao": prd["descricao"],
-        "categoria": prd["categoria"],
-        "marca": prd["marca"],
+        "id": prd.id,
+        "descricao": prd.descricao,
+        "categoria": prd.categoria,
+        "marca": prd.marca,
         "quantidade": qtd,
-        "preco_compra": prd["preco_compra"],
+        "total": qtd * prd.preco_venda,
       }
       itens_pedido.append(item)
   pedido.itens_pedido = itens_pedido

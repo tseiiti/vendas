@@ -23,6 +23,16 @@ class Cliente(models.Model):
   ordering = ['nome']
   def __str__(self): return self.nome
 
+class Produto(models.Model):
+  class Meta: permissions = [ ("can_preco_venda", "Pode alterar o preço de venda"), ]
+  descricao = models.CharField("descrição", max_length = 255)
+  marca = models.CharField(max_length = 255)
+  categoria = models.CharField(max_length = 255)
+  quantidade = models.IntegerField()
+  preco_compra = models.FloatField("preço de compra R$")
+  preco_venda = models.FloatField("preço de venda R$")
+  def __str__(self): return self.descricao
+
 class ItemPedido(models.Model):
   class Meta: abstract = True
   id = models.IntegerField()
@@ -30,14 +40,9 @@ class ItemPedido(models.Model):
   categoria = models.CharField(max_length = 255)
   marca = models.CharField(max_length = 255)
   quantidade = models.IntegerField()
-  preco_compra = models.FloatField()
+  total = models.FloatField()
 
 class Pedido(models.Model):
-  representante = models.ForeignKey(Representante, on_delete = models.RESTRICT)
-  cliente = models.ForeignKey(Cliente, on_delete = models.RESTRICT)
-  itens_pedido = models.ArrayField(model_container = ItemPedido)
-  horario = models.DateTimeField("horário")
-  total = models.FloatField()
   class Meta:
     permissions = [
       ("can_list", "Pode listar os pedidos"),
@@ -45,3 +50,8 @@ class Pedido(models.Model):
       ("can_update", "Pode atualizar um pedido existente"),
       ("can_detail", "Pode visualizar os detalhes de um pedido"),
     ]
+  representante = models.ForeignKey(Representante, on_delete = models.RESTRICT)
+  cliente = models.ForeignKey(Cliente, on_delete = models.RESTRICT)
+  itens_pedido = models.ArrayField(model_container = ItemPedido)
+  horario = models.DateTimeField("horário")
+  total = models.FloatField()
