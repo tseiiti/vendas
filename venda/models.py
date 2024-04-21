@@ -52,7 +52,8 @@ class Pedido(models.Model):
       ("can_create", "Pode criar um novo pedido"),
       ("can_update", "Pode atualizar um pedido existente"),
       ("can_detail", "Pode visualizar os detalhes de um pedido"),
-      ("can_send", "Pode confirmar o envio de um pedido"),
+      ("can_send", "Pode enviar o pedido"),
+      ("can_confirm", "Pode confirmar o envio de um pedido"),
     ]
   representante = models.ForeignKey(Representante, on_delete = models.RESTRICT)
   cliente = models.ForeignKey(Cliente, on_delete = models.RESTRICT)
@@ -60,4 +61,4 @@ class Pedido(models.Model):
   horario = models.DateTimeField("horário")
   total = models.FloatField()
   etapas = models.TextChoices("etapa", "criado enviado confirmado faturado cancelado")
-  etapa = models.CharField(max_length = 20, choices = etapas.choices)
+  etapa = models.CharField(max_length = 20, choices = etapas.choices, default = etapas.criado)
