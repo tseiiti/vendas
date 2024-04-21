@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import permission_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from urllib.request import urlopen
 from datetime import datetime
 import json
@@ -17,6 +18,7 @@ def list(request):
     "title": "Listar Pedidos", 
     "representante": representante,
     "pedidos": Pedido.objects.filter(representante = representante).order_by("-horario")[:50], 
+    "message": request.GET.get("message")
   }
   return render(request, "list.html", context)
   
@@ -46,6 +48,17 @@ def detail(request, id):
   context = get_context(request, id)
   context["title"] = "Visualizar Pedido"
   return render(request, "detail.html", context)
+
+@permission_required("venda.can_send")
+def send(request, id):
+  representante = Representante.objects.filter(user = request.user).first()
+  pedido = Pedido.objects.filter(id = id, representante = representante, etapa = Pedido.etapas.criado).first()
+  if pedido:
+    pedido.horario = datetime.now()
+    pedido.etapa = Pedido.etapas.enviado
+    pedido.save()
+    return redirect("/venda/list?message=Pedido enviado com sucesso!")
+  return redirect("venda:list")
 
 @permission_required("venda.can_preco_venda")
 def preco_venda(request):
@@ -84,6 +97,7 @@ def save_pedido(request, pedido):
   pedido.representante = Representante.objects.get(user = request.user)
   pedido.cliente = Cliente.objects.get(id = post.get("select-cliente"))
   pedido.total = post.get("input-total").replace(",", ".")
+  pedido.etapa = Pedido.etapas.criado
   itens_pedido = []
   for k in dict(post).keys():
     if "hidden-pedidos" in k:

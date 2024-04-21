@@ -8,6 +8,21 @@
   <input type="text" class="form-control" value="{{  representante.nome  }}" disabled readonly>
 </div>
 
+{% if message %}
+<div class="alert alert-success alert-dismissible position-absolute top-0 start-50 translate-middle-x mt-5 shadow-lg" onclick="close()">
+  <div class="m-2">{{ message }}</div>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<script>
+  const close = () => {
+    bootstrap.Alert.getOrCreateInstance(document.querySelector(".alert")).close()
+  }
+  setTimeout(() => {
+    close()
+  }, 5000)
+</script>
+{% endif %}
+
 <div class="mb-4 p-2">
   <h5 class="fw-bold text-warning">Pedidos - <small><a class="fw-lighter" href="{% url 'venda:create' %}">Novo Registro</a></small></h5>
   <table class="table table-hover shadow">
@@ -17,8 +32,10 @@
         <th scope="col">Cliente</th>
         <th scope="col">Horário</th>
         <th scope="col">Total R$</th>
-        <th style="width:2%; text-align: center;"></th>
-        <th style="width:5%; text-align: center;"></th>
+        <th scope="col">Etapa</th>
+        <th style="width:3%; text-align: center;"></th>
+        <th style="width:3%; text-align: center;"></th>
+        <th style="width:3%; text-align: center;"></th>
       </tr>
     </thead>
     <tbody class="table-group-divider">
@@ -28,8 +45,14 @@
         <td>{{ pedido.cliente }}</td>
         <td>{{ pedido.horario | date:'d/m H:i' }}</td>
         <td>{{ pedido.total | localize }}</td>
-        <td style="width:2%; text-align: center;"><a href="{% url 'venda:detail' id=pedido.id %}" title="Visualizar"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
-        <td style="width:5%; text-align: center;"><a href="{% url 'venda:update' id=pedido.id %}" title="Editar"><i class="fa fa-edit" aria-hidden="true"></i></a></td>
+        <td>{{ pedido.etapa }}</td>
+        <td style="width:3%; text-align: center;">
+          {% if pedido.etapa == 'criado' %}
+          <a href="{% url 'venda:send' id=pedido.id %}" onclick="return confirm('Você tem certeza?')" title="Enviar"><i class="fa fa-paper-plane"></i></a>
+          {% endif %}
+        </td>
+        <td style="width:3%; text-align: center;"><a href="{% url 'venda:detail' id=pedido.id %}" title="Visualizar"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+        <td style="width:3%; text-align: center;"><a href="{% url 'venda:update' id=pedido.id %}" title="Editar"><i class="fa fa-edit" aria-hidden="true"></i></a></td>
       </tr>
       {% endfor %}
     </tbody>

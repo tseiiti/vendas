@@ -4,11 +4,14 @@ from django.contrib.auth.models import User
 class Representante(models.Model):
   nome = models.CharField(max_length = 255)
   cpf = models.CharField("CPF", max_length = 14)
+  niveis = models.TextChoices("nivel", "confirmar junior pleno senior confirmado")
+  nivel = models.CharField(max_length = 20, choices = niveis.choices)
   user = models.OneToOneField(User, on_delete = models.RESTRICT)
   ordering = ['nome']
   def __str__(self): return self.nome
 
 class Cliente(models.Model):
+  class Meta: permissions = [ ("can_get_all", "Pode acessar todos os clientes"), ]
   nome = models.CharField(max_length = 255)
   cnpj = models.CharField("CNPJ", max_length = 20)
   endereco = models.CharField(max_length = 255)
@@ -49,9 +52,12 @@ class Pedido(models.Model):
       ("can_create", "Pode criar um novo pedido"),
       ("can_update", "Pode atualizar um pedido existente"),
       ("can_detail", "Pode visualizar os detalhes de um pedido"),
+      ("can_send", "Pode confirmar o envio de um pedido"),
     ]
   representante = models.ForeignKey(Representante, on_delete = models.RESTRICT)
   cliente = models.ForeignKey(Cliente, on_delete = models.RESTRICT)
   itens_pedido = models.ArrayField(model_container = ItemPedido)
   horario = models.DateTimeField("horário")
   total = models.FloatField()
+  etapas = models.TextChoices("etapa", "criado enviado confirmado faturado cancelado")
+  etapa = models.CharField(max_length = 20, choices = etapas.choices)
