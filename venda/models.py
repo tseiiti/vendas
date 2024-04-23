@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 class Representante(models.Model):
   nome = models.CharField(max_length = 255)
   cpf = models.CharField("CPF", max_length = 14)
-  niveis = models.TextChoices("nivel", "confirmar junior pleno senior confirmado")
+  niveis = models.TextChoices("nivel", "enviado junior pleno senior confirmado")
   nivel = models.CharField(max_length = 20, choices = niveis.choices)
   user = models.OneToOneField(User, on_delete = models.RESTRICT)
   ordering = ['nome']
@@ -28,6 +28,7 @@ class Cliente(models.Model):
 
 class Produto(models.Model):
   class Meta: permissions = [ ("can_preco_venda", "Pode alterar o preço de venda"), ]
+  produto_id = models.IntegerField()
   descricao = models.CharField("descrição", max_length = 255)
   marca = models.CharField(max_length = 255)
   categoria = models.CharField(max_length = 255)
@@ -45,6 +46,12 @@ class ItemPedido(models.Model):
   quantidade = models.IntegerField()
   total = models.FloatField()
 
+class EtapaPedido(models.Model):
+  class Meta: abstract = True
+  etapa = models.CharField(max_length = 20)
+  horario = models.DateTimeField("horário")
+  user_id = models.IntegerField()
+
 class Pedido(models.Model):
   class Meta:
     permissions = [
@@ -55,9 +62,10 @@ class Pedido(models.Model):
       ("can_send", "Pode enviar o pedido"),
       ("can_confirm", "Pode confirmar o envio de um pedido"),
     ]
+  itens_pedido = models.ArrayField(model_container = ItemPedido)
+  etapas_pedido = models.ArrayField(model_container = EtapaPedido)
   representante = models.ForeignKey(Representante, on_delete = models.RESTRICT)
   cliente = models.ForeignKey(Cliente, on_delete = models.RESTRICT)
-  itens_pedido = models.ArrayField(model_container = ItemPedido)
   horario = models.DateTimeField("horário")
   total = models.FloatField()
   etapas = models.TextChoices("etapa", "criado enviado confirmado faturado cancelado")

@@ -29,6 +29,7 @@
     <thead>
       <tr>
         <th scope="col">#</th>
+        <th scope="col">Representante</th>
         <th scope="col">Cliente</th>
         <th scope="col">Horário</th>
         <th scope="col">Total R$</th>
@@ -42,6 +43,7 @@
       {% for pedido in pedidos %}
       <tr>
         <th scope="row">{{ pedido.id }}</th>
+        <td>{{ pedido.representante }}</td>
         <td>{{ pedido.cliente }}</td>
         <td>{{ pedido.horario | date:'d/m H:i' }}</td>
         <td>{{ pedido.total | localize }}</td>

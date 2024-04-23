@@ -8,17 +8,18 @@ def consulta(request):
   for e in Estoque.objects.all():
     if e.quantidade > 0:
       data.append({
-        "id": e.produto.id,
+        "id": e.id,
+        "produto_id": e.produto.id,
         "descricao": e.produto.descricao,
-        "categoria": e.produto.categoria.titulo,
         "marca": e.produto.marca.nome,
+        "categoria": e.produto.categoria.titulo,
         "quantidade": e.quantidade,
         "preco_compra": e.preco_compra,
       })
   return HttpResponse(json.dumps(data), content_type = "application/json")
 
 def saida(request):
-  id = request.POST.get("id")
+  id = request.GET.get("id")
   if not id:
     return HttpResponse(json.dumps({"erro": "id inválido"}), content_type = "application/json")
   
@@ -26,10 +27,10 @@ def saida(request):
   if not estoque:
     return HttpResponse(json.dumps({"erro": "produto não encontrado"}), content_type = "application/json")
   
-  quantidade = request.POST.get("quantidade")
+  quantidade = int(request.GET.get("quantidade"))
   if not quantidade or estoque.quantidade - quantidade < 0:
     return HttpResponse(json.dumps({"erro": "quantidade inválida"}), content_type = "application/json")
-
+  
   estoque.quantidade -= quantidade
   estoque.save()
   return HttpResponse(json.dumps({"sucesso": "saída registrada com sucesso"}), content_type = "application/json")

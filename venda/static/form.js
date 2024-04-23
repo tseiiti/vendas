@@ -65,7 +65,7 @@ const atualizar_total = () => {
   }
 }
 
-const enviar_pedido = () => {
+const salvar = () => {
   if (parseFloat(qs('#input-total').value) == 0) {
     msg_erro('- Pedido deve ter ao menos um produto selecionado!')
   } if (qs('#select-cliente').value == '') {
