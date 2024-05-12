@@ -109,10 +109,11 @@ def apriori(request):
   pks = set()
   data = []
   apri = Apriori.objects.filter(item_a__in=itens).order_by("-lift")
+  ids = [int(i.replace("P", "")) for i in ids]
   for a in apri:
     for i in a.item_b.split(","):
       pk = int(i.replace("P", ""))
-      if not pk in pks:
+      if not pk in pks and not pk in ids:
         pks.add(pk)
         e = Estoque.objects.get(pk=pk, quantidade__gt = 0)
         data.append({
