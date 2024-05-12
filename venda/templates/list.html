@@ -25,7 +25,7 @@
 
 <div class="mb-4 p-2">
   <h5 class="fw-bold text-warning">Pedidos - <small><a class="fw-lighter" href="{% url 'venda:create' %}">Novo Registro</a></small></h5>
-  <table class="table table-hover shadow">
+  <table class="table table-hover table-striped shadow">
     <thead>
       <tr>
         <th scope="col">#</th>
@@ -34,9 +34,7 @@
         <th scope="col">Horário</th>
         <th scope="col">Total R$</th>
         <th scope="col">Etapa</th>
-        <th style="width:3%; text-align: center;"></th>
-        <th style="width:3%; text-align: center;"></th>
-        <th style="width:3%; text-align: center;"></th>
+        <th colspan="3" style="width:5%; text-align: center;"></th>
       </tr>
     </thead>
     <tbody class="table-group-divider">
@@ -44,27 +42,29 @@
       <tr>
         <th scope="row">{{ pedido.id }}</th>
         <td>{{ pedido.representante }}</td>
-        <td>{{ pedido.cliente }}</td>
+        <td>{{ pedido.cliente.nome }}</td>
         <td>{{ pedido.horario | date:'d/m H:i' }}</td>
         <td>{{ pedido.total | localize }}</td>
         <td>{{ pedido.etapa }}</td>
-        <td style="width:3%; text-align: center;">
-          {% if pedido.etapa == 'criado' %}
-          <a href="{% url 'venda:send' id=pedido.id %}" onclick="return confirm('Você tem certeza?')" title="Enviar">
-            <i class="fa fa-paper-plane"></i>
-          </a>
-          {% elif pedido.etapa == 'enviado' and can_confirm %}
+        <td style="text-align: center;">
+          {% if can_confirm %}
+          {% if pedido.etapa == 'enviado' or pedido.etapa == 'criado' %}
           <a href="{% url 'venda:confirm' id=pedido.id %}" onclick="return confirm('Você tem certeza?')" title="Confirmar">
             <i class="fa fa-square-check"></i>
           </a>
           {% endif %}
+          {% elif pedido.etapa == 'criado' %}
+          <a href="{% url 'venda:send' id=pedido.id %}" onclick="return confirm('Você tem certeza?')" title="Enviar">
+            <i class="fa fa-paper-plane"></i>
+          </a>
+          {% endif %}
         </td>
-        <td style="width:3%; text-align: center;">
+        <td style="text-align: center;">
           <a href="{% url 'venda:detail' id=pedido.id %}" title="Visualizar">
             <i class="fa fa-eye" aria-hidden="true"></i>
           </a>
         </td>
-        <td style="width:3%; text-align: center;">
+        <td style="text-align: center;">
           {% if pedido.etapa == 'criado' %}
           <a href="{% url 'venda:update' id=pedido.id %}" title="Editar">
             <i class="fa fa-edit" aria-hidden="true"></i>
@@ -75,5 +75,41 @@
       {% endfor %}
     </tbody>
   </table>
+
+  <!--nav class="float-end">
+    <ul class="pagination">
+      <li class="page-item ">
+        <a class="page-link" href="#" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      <li class="page-item"><a class="page-link" href="#"></a></li>
+      <li class="page-item"><a class="page-link" href="#">2</a></li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item"><a class="page-link" href="#">4</a></li>
+      <li class="page-item"><a class="page-link" href="#">5</a></li>
+      <li class="page-item">
+        <a class="page-link" href="#" aria-label="Next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <nav>
+    <ul class="pagination">
+      <li class="page-item disabled">
+        <a class="page-link">Previous</a>
+      </li>
+      <li class="page-item"><a class="page-link" href="#">1</a></li>
+      <li class="page-item active" aria-current="page">
+        <a class="page-link" href="#">2</a>
+      </li>
+      <li class="page-item"><a class="page-link" href="#">3</a></li>
+      <li class="page-item">
+        <a class="page-link" href="#">Next</a>
+      </li>
+    </ul>
+  </nav-->
 </div>
 {% endblock %}

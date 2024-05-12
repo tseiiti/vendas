@@ -1,29 +1,32 @@
 from django.contrib.auth.decorators import permission_required
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.urls import reverse
-from urllib.request import urlopen
-from datetime import datetime
+from django.utils import timezone
+from django.http import HttpResponse
 import json
 
-from .models import Representante, Cliente, Produto, Pedido
-
-def home(request):
-  return render(request, "home.html", { "title": "Home", })
+from .models import Representante, Estoque, Pedido, Apriori
 
 @permission_required("venda.can_list")
 def list(request):
   representante = Representante.objects.filter(user = request.user).first()
   pedidos = Pedido.objects.filter(representante = representante)
-
   can_confirm = request.user.has_perm('venda.can_confirm')
   if can_confirm:
     pedidos = pedidos | Pedido.objects.filter(etapa = Pedido.etapas.enviado)
-    
+  pedidos = pedidos.order_by("-horario", "-id")
+
+  # from django.core.paginator import Paginator
+  # p = request.GET.get("p")
+  # if not p: p = "0"
+  # p = int(p)
+  # pg = Paginator(pedidos, 20).page(p + 1)
+  
   context = {
     "title": "Listar Pedidos",
     "representante": representante,
-    "pedidos": pedidos.order_by("-horario")[:50],
+    "pedidos": pedidos[:50],
+    # "pedidos": pedidos[p * 20:p * 20 + 20],
+    # "pg": pg,
     "message": request.GET.get("message"),
     "can_confirm": can_confirm,
   }
@@ -55,143 +58,161 @@ def detail(request, id):
 @permission_required("venda.can_send")
 def send(request, id):
   representante = Representante.objects.filter(user = request.user).first()
-  pedido = Pedido.objects.filter(id = id, representante = representante, etapa = Pedido.etapas.criado).first()
-
+  pedido = Pedido.objects.filter(
+    id = id, 
+    representante = representante, 
+    etapa = Pedido.etapas.criado).first()
   if pedido:
     pedido.etapa = Pedido.etapas.enviado
-    pedido.horario = datetime.now()
+    pedido.horario = timezone.now()
     pedido.save()
     add_etapa(pedido, request.user)
-    if (representante.nivel == Representante.niveis.confirmado) \
+    if representante.user.has_perm('venda.can_confirm') \
+      or (representante.nivel == Representante.niveis.confirmado) \
       or (representante.nivel == Representante.niveis.senior and pedido.total < 100000) \
       or (representante.nivel == Representante.niveis.pleno and pedido.total < 10000) \
       or (representante.nivel == Representante.niveis.junior and pedido.total < 1000):
       confirmar(pedido, request.user)
     return redirect(f"/venda/list?message=Pedido {pedido.etapa} com sucesso!")
-  
   return redirect("venda:list")
 
 @permission_required("venda.can_confirm")
 def confirm(request, id):
-  pedido = Pedido.objects.filter(id = id, etapa = Pedido.etapas.enviado).first()
+  pedido = Pedido.objects.filter(id = id).first()
   if pedido:
     confirmar(pedido, request.user)
     return redirect(f"/venda/list?message=Pedido confirmado com sucesso!")
   return redirect("venda:list")
 
-@permission_required("venda.can_preco_venda")
-def preco_venda(request):
-  estoque = consultar_estoque()
-  for e in estoque:
-    prod = Produto.objects.filter(id = e['id']).first()
-    if not prod:
-      prod = Produto()
-      prod.id = e.id
-      prod.produto_id = e.produto_id
-      prod.descricao = e.descricao
-      prod.marca = e.marca
-      prod.categoria = e.categoria
-      prod.quantidade = e.quantidade
-      prod.preco_compra = e.preco_compra
-      # prod.preco_venda = prod.preco_compra * 2
-      prod.preco_venda = 999999999
-      prod.save()
-  return redirect("/admin/venda/produto/")
+def apriori(request):
+  item_a = request.GET.get("item_a")
+  if not item_a: item_a = ""
+
+  # identifica as possiveis combinações
+  itens = []
+  ids = item_a.split(",")
+  a = b = len(ids)
+  itens.append(",".join(sorted(ids)))
+  for i in range(a):
+    for j in range(1, b):
+      x = []
+      for k in range(b - j):
+        l = i + k
+        if l >= a: l -= a
+        x.append(ids[l])
+      itens.append(",".join(sorted(x)))
+  itens.append("")
+
+  # adiciona elementos no array
+  pks = set()
+  data = []
+  apri = Apriori.objects.filter(item_a__in=itens).order_by("-lift")
+  for a in apri:
+    for i in a.item_b.split(","):
+      pk = int(i.replace("P", ""))
+      if not pk in pks:
+        pks.add(pk)
+        e = Estoque.objects.get(pk=pk, quantidade__gt = 0)
+        data.append({
+          "id": e.id,
+          "descricao": e.produto["descricao"],
+          "marca": e.produto["marca"]["nome"],
+          "preco_venda": e.preco_venda,
+          "suporte": a.suporte,
+          "confianca": a.confianca,
+          "lift": a.lift,
+        })
+      if len(data) == 5: break
+    if len(data) == 5: break
+  return HttpResponse(json.dumps(data), content_type = "application/json")
 
 
 
 #################
 # private 
 #################
-def add_etapa(pedido, user):
-  etapas_pedido = pedido.etapas_pedido
-  if not etapas_pedido: etapas_pedido = []
-  etapas_pedido.append({
-    "etapa": pedido.etapa,
-    "horario": datetime.now(),
-    "user_id": user.id,
-  })
-  pedido.etapas_pedido = etapas_pedido
-  pedido.save()
+
+def get_context(request, title, id = None):
+  pedido = Pedido.objects.filter(id = id).first()
+  if pedido and pedido.representante_id:
+    representante = pedido.representante
+  else:
+    representante = Representante.objects.filter(user = request.user).first()
+
+  # "obtendo do sistema de estoque"
+  estoques = Estoque.objects.filter(quantidade__gt = 0)
+
+  return {
+    "representante": representante,
+    "estoques": estoques,
+    "pedido": pedido,
+    "title": title,
+  }
 
 def confirmar(pedido, user):
-  # envio para sistema de estoque
+  # envio de saída para o sistema de estoque
   for item in pedido.itens_pedido:
-    id = item["id"]
-    quantidade = item["quantidade"]
-    url = "http://localhost:8000/estoque/saida"
-    url += f"?id={id}"
-    url += f"&quantidade={quantidade}"
-    response = urlopen(url)
-    saida = json.loads(response.read())
-    if "erro" in saida.keys():
-      print(saida["erro"])
-      return
+    estoque = Estoque.objects.filter(id = item["id"]).first()
+    estoque.quantidade -= item["quantidade"]
+    estoque.save()
 
   # envio para sistema financeiro
 
   # envio para sistema transportadora
 
   pedido.etapa = Pedido.etapas.confirmado
-  pedido.horario = datetime.now()
+  pedido.horario = timezone.now()
   pedido.save()
   add_etapa(pedido, user)
 
-def consultar_estoque():
-  url = "http://localhost:8000/estoque/consulta"
-  response = urlopen(url)
-  return json.loads(response.read())
-
-def get_context(request, title, id = None):
-  # não será validado o estoque novamente!
-
-  produtos = consultar_estoque()
-  for produto in produtos:
-    produto["preco_venda"] = Produto.objects.get(id = produto["id"]).preco_venda
-
-  pedido = Pedido.objects.filter(id = id).first()
-  if pedido: 
-    representante = pedido.representante
-  else:
-    representante = Representante.objects.filter(user = request.user).first()
-  clientes = Cliente.objects.filter(representante = representante)
-  context = {
-    "representante": representante,
-    "clientes": clientes,
-    "produtos": produtos,
-    "pedido": pedido,
-    "title": title,
-  }
-  return context
-
 def save_pedido(request, pedido):
+  # criar ou alterar o pedido somente na etapa de "criado"
   if pedido.etapa != Pedido.etapas.criado: return
 
+  # criar ou alterar o pedido somente pelo mesmo representante
   post = request.POST
   representante = Representante.objects.filter(id = post.get("input-representante-id")).first()
   if representante.user != request.user: return
 
-  pedido.horario = datetime.now()
+  # atributos básicos
   pedido.representante = representante
-  pedido.cliente = Cliente.objects.get(id = post.get("select-cliente"))
+  pedido.cliente = next(
+    item for item in representante.clientes 
+      if item["id"] == int(post.get("select-cliente")))
+  pedido.horario = timezone.now()
   pedido.total = post.get("input-total").replace(",", ".")
-  pedido.etapa = Pedido.etapas.criado
+
+  # produtos selecionados
   itens_pedido = []
+  i = 0
   for k in dict(post).keys():
     if "hidden-pedidos" in k:
-      id = k.replace("hidden-pedidos[", "").replace("]", "")
+      i += 1
+      estoque_id = k.replace("hidden-pedidos[", "").replace("]", "")
+      est = Estoque.objects.get(id = estoque_id)
       qtd = int(post.get(k))
-      prd = Produto.objects.get(id = id)
       itens_pedido.append({
-        "id": prd.id,
-        "produto_id": prd.produto_id,
-        "descricao": prd.descricao,
-        "marca": prd.marca,
-        "categoria": prd.categoria,
+        "id": i,
+        "produto": est.produto,
+        "preco_compra": est.preco_compra,
+        "preco_venda": est.preco_venda,
         "quantidade": qtd,
-        "preco_venda": prd.preco_venda,
-        "total": qtd * prd.preco_venda,
+        "total": qtd * est.preco_venda,
       })
   pedido.itens_pedido = itens_pedido
   pedido.save()
+
+  # adicionar etapa no histórico
   add_etapa(pedido, request.user)
+
+def add_etapa(pedido, user):
+  etapas_pedido = pedido.etapas_pedido
+  if not etapas_pedido: etapas_pedido = []
+  etapas_pedido.append({
+    "id": len(etapas_pedido) + 1,
+    "etapa": pedido.etapa,
+    "horario": timezone.now(),
+    "user_id": user.id,
+  })
+  pedido.etapas_pedido = etapas_pedido
+  pedido.save()
