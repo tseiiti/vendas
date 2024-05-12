@@ -2,9 +2,11 @@ from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.http import HttpResponse
-import json
-
+from django.core.paginator import Paginator
+from json import dumps
 from .models import Representante, Estoque, Pedido, Apriori
+
+size_page = 10
 
 @permission_required("venda.can_list")
 def list(request):
@@ -15,18 +17,18 @@ def list(request):
     pedidos = pedidos | Pedido.objects.filter(etapa = Pedido.etapas.enviado)
   pedidos = pedidos.order_by("-horario", "-id")
 
-  # from django.core.paginator import Paginator
-  # p = request.GET.get("p")
-  # if not p: p = "0"
-  # p = int(p)
-  # pg = Paginator(pedidos, 20).page(p + 1)
+  p = request.GET.get("p")
+  if not p: p = "1"
+  p = int(p)
+
+  paginator = Paginator(pedidos, size_page)
+  pag = paginator.page(p)
   
   context = {
     "title": "Listar Pedidos",
     "representante": representante,
-    "pedidos": pedidos[:50],
-    # "pedidos": pedidos[p * 20:p * 20 + 20],
-    # "pg": pg,
+    "pedidos": pedidos[(p - 1) * size_page:(p - 1) * size_page + size_page],
+    "pag": pag,
     "message": request.GET.get("message"),
     "can_confirm": can_confirm,
   }
@@ -124,7 +126,7 @@ def apriori(request):
         })
       if len(data) == 5: break
     if len(data) == 5: break
-  return HttpResponse(json.dumps(data), content_type = "application/json")
+  return HttpResponse(dumps(data), content_type = "application/json")
 
 
 
