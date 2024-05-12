@@ -2,11 +2,10 @@ from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.http import HttpResponse
-from django.core.paginator import Paginator
 from json import dumps
 from .models import Representante, Estoque, Pedido, Apriori
 
-size_page = 15
+size_page = 50
 
 @permission_required("venda.can_list")
 def list(request):
@@ -21,8 +20,19 @@ def list(request):
   if not p: p = "1"
   p = int(p)
 
-  paginator = Paginator(pedidos, size_page)
-  pag = paginator.page(p)
+  t = len(pedidos)
+  t = int(t / size_page) + (t % size_page > 0)
+  pag = {
+    '1': 1 if p > 1 else None,
+    '2': p - 3 if p - 3 > 0 else None,
+    '3': p - 2 if p - 2 > 0 else None,
+    '4': p - 1 if p - 1 > 0 else None,
+    '5': p,
+    '6': p + 1 if p + 1 <= t else None,
+    '7': p + 2 if p + 2 <= t else None,
+    '8': p + 3 if p + 3 <= t else None,
+    '9': t if p < t else None,
+  }
   
   context = {
     "title": "Listar Pedidos",
