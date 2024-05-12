@@ -43,7 +43,7 @@
         <th scope="row">{{ pedido.id }}</th>
         <td>{{ pedido.representante }}</td>
         <td>{{ pedido.cliente.nome }}</td>
-        <td>{{ pedido.horario | date:'d/m H:i' }}</td>
+        <td>{{ pedido.horario | date:'d/m/Y H:i' }}</td>
         <td>{{ pedido.total | localize }}</td>
         <td>{{ pedido.etapa }}</td>
         <td style="text-align: center;">

@@ -6,7 +6,7 @@ from django.core.paginator import Paginator
 from json import dumps
 from .models import Representante, Estoque, Pedido, Apriori
 
-size_page = 10
+size_page = 15
 
 @permission_required("venda.can_list")
 def list(request):
