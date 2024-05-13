@@ -10,5 +10,4 @@ urlpatterns = [
   path('<int:id>/send', send, name = 'send'),
   path('<int:id>/confirm', confirm, name = 'confirm'),
   path('apriori', apriori, name = 'apriori'),
-  
 ]
