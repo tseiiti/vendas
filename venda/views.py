@@ -81,9 +81,9 @@ def send(request, id):
     add_etapa(pedido, request.user)
     if representante.user.has_perm('venda.can_confirm') \
       or (representante.nivel == Representante.niveis.confirmado) \
-      or (representante.nivel == Representante.niveis.senior and pedido.total < 100000) \
-      or (representante.nivel == Representante.niveis.pleno and pedido.total < 10000) \
-      or (representante.nivel == Representante.niveis.junior and pedido.total < 1000):
+      or (representante.nivel == Representante.niveis.senior and pedido.total < 15000) \
+      or (representante.nivel == Representante.niveis.pleno and pedido.total < 5000) \
+      or (representante.nivel == Representante.niveis.junior and pedido.total < 500):
       confirmar(pedido, request.user)
     return redirect(f"/venda/list?message=Pedido {pedido.etapa} com sucesso!")
   return redirect("venda:list")

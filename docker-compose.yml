@@ -6,6 +6,7 @@ services:
     ports:
       - 27017:27017
     volumes:
+      - .:/vendas
       - mongo_data:/etc/mongo
       - mongo_data:/data/db
 
