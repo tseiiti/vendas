@@ -77,7 +77,7 @@ class EtapaPedido(models.Model):
   class Meta: abstract = True
 
 class Pedido(models.Model):
-  etapas = models.TextChoices("etapa", "criado enviado confirmado faturado cancelado")
+  etapas = models.TextChoices("etapa", "criado enviado confirmado faturado cancelado rejeitado")
   etapa = models.CharField(max_length = 20, choices = etapas.choices, default = etapas.criado)
   etapas_pedido = models.ArrayField(model_container = EtapaPedido)
   representante = models.ForeignKey(Representante, on_delete = models.RESTRICT)

@@ -164,10 +164,21 @@ def get_context(request, title, id = None):
 
 def confirmar(pedido, user):
   # envio de saída para o sistema de estoque
+  valido = True
   for item in pedido.itens_pedido:
     estoque = Estoque.objects.filter(id = item["id"]).first()
-    estoque.quantidade -= item["quantidade"]
-    estoque.save()
+    if estoque.quantidade - item["quantidade"] < 0:
+      valido = False
+
+  if valido:
+    for item in pedido.itens_pedido:
+      estoque = Estoque.objects.filter(id = item["id"]).first()
+      estoque.quantidade -= item["quantidade"]
+      estoque.save()
+  else:
+    pedido.etapa = Pedido.etapas.rejeitado
+    add_etapa(pedido, user)
+    return
 
   # envio para sistema financeiro
 
