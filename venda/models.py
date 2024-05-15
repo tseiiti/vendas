@@ -1,19 +1,19 @@
 from djongo import models
 from django.contrib.auth.models import User
 
-class Marca(models.Model):
-  nome = models.CharField(max_length = 255)
-  def __str__(self): return self.nome
-  class Meta: abstract = True
+# class Marca(models.Model):
+#   nome = 
+#   def __str__(self): return self.nome
+#   class Meta: abstract = True
 
-class Categoria(models.Model):
-  titulo = models.CharField("título", max_length = 255)
-  def __str__(self): return self.titulo
-  class Meta: abstract = True
+# class Categoria(models.Model):
+#   titulo = 
+#   def __str__(self): return self.titulo
+#   class Meta: abstract = True
 
 class Produto(models.Model):
-  marca = models.EmbeddedField(model_container = Marca)
-  categoria = models.EmbeddedField(model_container = Categoria)
+  marca = models.CharField(max_length = 255)
+  categoria = models.CharField("título", max_length = 255)
   descricao = models.CharField("descrição", max_length = 255)
   def __str__(self): return self.descricao
   class Meta: abstract = True

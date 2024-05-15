@@ -1,0 +1,71 @@
+<nav class="float-end">
+  <ul class="pagination">
+    {% if pag.1 %}
+    <li class="page-item">
+      <a class="page-link" href="?p=1">
+        <i class="fa-solid fa-angles-left"></i>
+      </a>
+    </li>
+    {% endif %}
+
+    {% if pag.2 %}
+    <li class="page-item">
+      <a class="page-link" href="?p={{ pag.2 }}">
+        {{ pag.2 }}
+      </a>
+    </li>
+    {% endif %}
+
+    {% if pag.3 %}
+    <li class="page-item">
+      <a class="page-link" href="?p={{ pag.3 }}">
+        {{ pag.3 }}
+      </a>
+    </li>
+    {% endif %}
+
+    {% if pag.4 %}
+    <li class="page-item">
+      <a class="page-link" href="?p={{ pag.4 }}">
+        {{ pag.4 }}
+      </a>
+    </li>
+    {% endif %}
+
+    <li class="page-item active">
+      <a class="page-link" href="javascript:void(0)">{{ pag.5 }}</a>
+    </li>
+
+    {% if pag.6 %}
+    <li class="page-item">
+      <a class="page-link" href="?p={{ pag.6 }}">
+        {{ pag.6 }}
+      </a>
+    </li>
+    {% endif %}
+
+    {% if pag.7 %}
+    <li class="page-item">
+      <a class="page-link" href="?p={{ pag.7 }}">
+        {{ pag.7 }}
+      </a>
+    </li>
+    {% endif %}
+
+    {% if pag.8 %}
+    <li class="page-item">
+      <a class="page-link" href="?p={{ pag.8 }}">
+        {{ pag.8 }}
+      </a>
+    </li>
+    {% endif %}
+
+    {% if pag.9 %}
+    <li class="page-item">
+      <a class="page-link" href="?p={{ pag.9 }}">
+        <i class="fa-solid fa-angles-right"></i>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+</nav>

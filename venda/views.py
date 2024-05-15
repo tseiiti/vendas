@@ -129,7 +129,7 @@ def apriori(request):
         data.append({
           "id": e.id,
           "descricao": e.produto["descricao"],
-          "marca": e.produto["marca"]["nome"],
+          "marca": e.produto["marca"],
           "preco_venda": e.preco_venda,
           "suporte": a.suporte,
           "confianca": a.confianca,
