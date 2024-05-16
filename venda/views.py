@@ -67,6 +67,17 @@ def detail(request, id):
   context = get_context(request, "Visualizar Pedido", id)
   return render(request, "detail.html", context)
 
+def track(request, id):
+  context = get_context(request, "Rastrear Pedido", id)
+  return render(request, "track.html", context)
+
+
+
+
+#################
+# api 
+#################
+
 @permission_required("venda.can_send")
 def send(request, id):
   representante = Representante.objects.filter(user = request.user).first()
@@ -138,6 +149,8 @@ def apriori(request):
       if len(data) == 5: break
     if len(data) == 5: break
   return HttpResponse(dumps(data), content_type = "application/json")
+
+
 
 
 
