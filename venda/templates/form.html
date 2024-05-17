@@ -55,15 +55,15 @@
         <div class="col-md-6 p-2">
           <div class="card border-warning h-100">
             <div class="card-header bg-warning-subtle">
-              <h6 class="card-title">{{ estoque.produto.descricao }}</h6>
+              <h6 class="card-title">{{ estoque.descricao }}</h6>
             </div>
             <div class="card-body">
-              <h6 class="card-subtitle mb-2 text-body-secondary">{{ estoque.produto.marca }}</h6>
-              <small><strong>{{ estoque.produto.categoria }}</strong></small><br />
+              <h6 class="card-subtitle mb-2 text-body-secondary">{{ estoque.marca }}</h6>
+              <small><strong>{{ estoque.categoria }}</strong></small><br />
               preço: R$ <span class="dinheiro">{{ estoque.preco_venda | localize }}</span>
             </div>
             <div class="card-footer">
-              <div class="input-group" id="div-produto-{{ estoque.id }}" data-id="{{ estoque.id }}" data-descricao="{{ estoque.produto.descricao }}" data-preco="{{ estoque.preco_venda }}">
+              <div class="input-group" id="div-produto-{{ estoque.id }}" data-id="{{ estoque.id }}" data-descricao="{{ estoque.descricao }}" data-preco="{{ estoque.preco_venda }}">
                 <button class="btn btn-outline-secondary px-3" type="button" onclick="atualizar_pedido('{{ estoque.id }}', -1)"><i class="fa-solid fa-minus"></i></button>
                 <input type="text" class="form-control text-center" id="input-produto-{{ estoque.id }}" value="0" readonly>
                 <button class="btn btn-outline-secondary px-3" type="button" onclick="atualizar_pedido('{{ estoque.id }}', 1)"><i class="fa-solid fa-plus"></i></button>

@@ -139,8 +139,8 @@ def apriori(request):
         e = Estoque.objects.get(pk=pk, quantidade__gt = 0)
         data.append({
           "id": e.id,
-          "descricao": e.produto["descricao"],
-          "marca": e.produto["marca"],
+          "descricao": e.descricao,
+          "marca": e.marca,
           "preco_venda": e.preco_venda,
           "suporte": a.suporte,
           "confianca": a.confianca,
@@ -230,7 +230,11 @@ def save_pedido(request, pedido):
       qtd = int(post.get(k))
       itens_pedido.append({
         "id": i,
-        "produto": est.produto,
+        "produto": {
+          "marca": est.marca,
+          "categoria": est.categoria,
+          "descricao": est.descricao,
+        },
         "preco_compra": est.preco_compra,
         "preco_venda": est.preco_venda,
         "quantidade": qtd,

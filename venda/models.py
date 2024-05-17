@@ -1,29 +1,14 @@
 from djongo import models
 from django.contrib.auth.models import User
 
-# class Marca(models.Model):
-#   nome = 
-#   def __str__(self): return self.nome
-#   class Meta: abstract = True
-
-# class Categoria(models.Model):
-#   titulo = 
-#   def __str__(self): return self.titulo
-#   class Meta: abstract = True
-
-class Produto(models.Model):
+class Estoque(models.Model):
   marca = models.CharField(max_length = 255)
   categoria = models.CharField("título", max_length = 255)
   descricao = models.CharField("descrição", max_length = 255)
-  def __str__(self): return self.descricao
-  class Meta: abstract = True
-
-class Estoque(models.Model):
-  produto = models.EmbeddedField(model_container = Produto)
   quantidade = models.IntegerField()
   preco_compra = models.FloatField("preço de compra R$")
   preco_venda = models.FloatField("preço de venda R$")
-  def __str__(self): return self.produto['descricao']
+  def __str__(self): return self.descricao
 
 
 
@@ -55,10 +40,17 @@ class Representante(models.Model):
   niveis = models.TextChoices("nivel", "enviado junior pleno senior confirmado")
   nivel = models.CharField(max_length = 20, choices = niveis.choices)
   user = models.OneToOneField(User, on_delete = models.RESTRICT)
-  ordering = ['nome']
+  ordering = ["nome"]
   def __str__(self): return self.nome
 
 
+
+class Produto(models.Model):
+  marca = models.CharField(max_length = 255)
+  categoria = models.CharField("título", max_length = 255)
+  descricao = models.CharField("descrição", max_length = 255)
+  def __str__(self): return self.descricao
+  class Meta: abstract = True
 
 class ItemPedido(models.Model):
   id = models.IntegerField()
@@ -96,10 +88,12 @@ class Pedido(models.Model):
     ]
 
 class Apriori(models.Model):
-  nome = models.CharField(max_length = 255)
+  index = models.IntegerField()
   item_a = models.CharField(max_length = 255)
   item_b = models.CharField(max_length = 255)
   suporte = models.FloatField()
   confianca = models.FloatField()
   lift = models.FloatField()
+  ordering = ["-lift"]
+  def __str__(self): return self.item_a + " > " + self.item_b
   

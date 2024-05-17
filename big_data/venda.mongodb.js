@@ -37,3 +37,7 @@ db.venda_pedido.find().sort({id: -1})
 
 db.venda_pedido.find({"representante_id": 3}).count()
 db.venda_pedido.find({"representante_id": 3}).sort({id: -1})
+
+db.venda_pedido.find().forEach(e => {
+  print(e.itens_pedido)
+})
