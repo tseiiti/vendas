@@ -1,3 +1,6 @@
+db.venda_representante.find().limit(1)
+db.venda_pedido.find().limit(1)
+
 db.venda_estoque.find().toArray()
 db.venda_representante.find().toArray()
 db.venda_pedido.find().toArray()
