@@ -9,6 +9,7 @@ import random
 
 from .models import Representante, Estoque, Pedido, Apriori, Rastreio
 
+fake = Faker('pt_BR')
 size_page = 50
 
 @permission_required("venda.can_list")
@@ -72,8 +73,6 @@ def detail(request, id):
   return render(request, "detail.html", context)
 
 def track(request, id):
-  fake = Faker('pt_BR')
-  
   pedido = Pedido.objects.filter(id = id).first()
   etapas = [{},{
     "id": 1,
@@ -107,7 +106,7 @@ def track(request, id):
     "icon": "fa-truck-fast"
   }, {
     "id": 6,
-    "titulo": "Pedido Entregue!",
+    "titulo": "Pedido entregue!",
     "descricao": "Seu pedido foi entregue para",
     "horario": datetime.now(),
     "icon": "fa-list-check"
@@ -134,11 +133,13 @@ def track(request, id):
     else:
       etapa["icon_color"] = "status-outfordelivery"
 
+  can_add_track = request.user.has_perm('venda.can_add_track')
   context = {
     "title": "Rastrear Pedido",
     "etapas": etapas[rastreio.etapas_rastreio[-1]["id"] + 1:],
     "pedido": pedido,
     "rastreio": rastreio,
+    "can_add_track": can_add_track,
   }
   return render(request, "track.html", context)
 

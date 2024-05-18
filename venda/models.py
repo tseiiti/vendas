@@ -87,6 +87,8 @@ class Pedido(models.Model):
       ("can_confirm", "Pode confirmar o envio de um pedido"),
     ]
 
+
+
 class Apriori(models.Model):
   item_a = models.CharField(max_length = 255)
   item_b = models.CharField(max_length = 255)
@@ -96,6 +98,8 @@ class Apriori(models.Model):
   ordering = ["-lift", "-suporte", "-confianca"]
   def __str__(self): return self.item_a + " > " + self.item_b
   
+
+
 class EtapaRastreio(models.Model):
   id = models.IntegerField()
   horario = models.DateTimeField("horário")
@@ -109,3 +113,5 @@ class Rastreio(models.Model):
   previsao = models.DateTimeField("previsão da entrega")
   etapa_atual = models.CharField(max_length = 255, default = "Separando os Produtos")
   etapas_rastreio = models.ArrayField(model_container = EtapaRastreio)
+  class Meta: 
+    permissions = [ ("can_add_track", "Pode atualizar status do rastreamento"), ]
