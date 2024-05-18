@@ -2,14 +2,14 @@ from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.http import HttpResponse
-from faker import Faker
-from datetime import datetime, timedelta
+
+from datetime import timedelta
 from json import dumps
 import random
 
+from .utils import Paginator, get_etapas
 from .models import Representante, Estoque, Pedido, Apriori, Rastreio
 
-fake = Faker('pt_BR')
 size_page = 50
 
 @permission_required("venda.can_list")
@@ -21,29 +21,14 @@ def list(request):
     pedidos = pedidos | Pedido.objects.filter(etapa = Pedido.etapas.enviado)
   pedidos = pedidos.order_by("-horario", "-id")
 
-  p = request.GET.get("p")
-  if not p: p = "1"
-  p = int(p)
-
-  t = len(pedidos)
-  t = int(t / size_page) + (t % size_page > 0)
-  pag = {
-    '1': 1 if p > 1 else None,
-    '2': p - 3 if p - 3 > 0 else None,
-    '3': p - 2 if p - 2 > 0 else None,
-    '4': p - 1 if p - 1 > 0 else None,
-    '5': p,
-    '6': p + 1 if p + 1 <= t else None,
-    '7': p + 2 if p + 2 <= t else None,
-    '8': p + 3 if p + 3 <= t else None,
-    '9': t if p < t else None,
-  }
+  pag = Paginator(pedidos, size_page)
+  pag.set_page(request.GET.get("p"))
   
   context = {
     "title": "Listar Pedidos",
     "representante": representante,
-    "pedidos": pedidos[(p - 1) * size_page:(p - 1) * size_page + size_page],
-    "pag": pag,
+    "pedidos": pag.page_objects(),
+    "pages": pag.pages(),
     "message": request.GET.get("message"),
     "can_confirm": can_confirm,
   }
@@ -72,51 +57,16 @@ def detail(request, id):
   context = get_context(request, "Visualizar Pedido", id)
   return render(request, "detail.html", context)
 
+@permission_required("venda.can_track")
 def track(request, id):
   pedido = Pedido.objects.filter(id = id).first()
-  etapas = [{},{
-    "id": 1,
-    "titulo": "Recebemos o seu pedido",
-    "descricao": f"Pedido gerado por {pedido.representante.nome}.",
-    "horario": pedido.horario,
-    "icon": "fa-receipt"
-  }, {
-    "id": 2,
-    "titulo": "Separando e embalando os produtos",
-    "descricao": f"Olá, {fake.name()} está quase terminando de embalar.",
-    "horario": datetime.now(),
-    "icon": "fa-box-open"
-  }, {
-    "id": 3,
-    "titulo": "Enviando para a transportadora",
-    "descricao": f"O pedido está sendo encaminhado para \"{fake.company()}\" que irá realizar a entrega.",
-    "horario": datetime.now(),
-    "icon": "fa-truck-ramp-box"
-  }, {
-    "id": 4,
-    "titulo": "Saindo para entrega",
-    "descricao": f"Seu pedido já saiu e será entregue por {fake.name()}.",
-    "horario": datetime.now(),
-    "icon": "fa-truck-arrow-right"
-  }, {
-    "id": 5,
-    "titulo": "Chegando no endereço de destino",
-    "descricao": "Estou próximo ao destino e pedimos a presença do responsável para receber o pedido.",
-    "horario": datetime.now(),
-    "icon": "fa-truck-fast"
-  }, {
-    "id": 6,
-    "titulo": "Pedido entregue!",
-    "descricao": "Seu pedido foi entregue para",
-    "horario": datetime.now(),
-    "icon": "fa-list-check"
-  }]
-    
+  etapas = get_etapas(pedido)
+  
   rastreio = Rastreio.objects.filter(pedido = pedido).first()
   if not rastreio:
     rastreio = Rastreio()
     rastreio.pedido = pedido
-    rastreio.previsao = timezone.now() + timedelta(days = random.randrange(4, 8))
+    rastreio.previsao = timezone.now() + timedelta(days = random.randrange(4, 7))
     rastreio.etapa_atual = etapas[1]["titulo"]
     rastreio.etapas_rastreio = [etapas[1]]
     rastreio.save()

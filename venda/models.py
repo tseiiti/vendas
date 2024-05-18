@@ -40,8 +40,8 @@ class Representante(models.Model):
   niveis = models.TextChoices("nivel", "enviado junior pleno senior confirmado")
   nivel = models.CharField(max_length = 20, choices = niveis.choices)
   user = models.OneToOneField(User, on_delete = models.RESTRICT)
-  ordering = ["nome"]
-  def __str__(self): return self.nome
+  def login(self): return self.user.username
+  def __str__(self): return self.user.username
 
 
 
@@ -114,4 +114,6 @@ class Rastreio(models.Model):
   etapa_atual = models.CharField(max_length = 255, default = "Separando os Produtos")
   etapas_rastreio = models.ArrayField(model_container = EtapaRastreio)
   class Meta: 
-    permissions = [ ("can_add_track", "Pode atualizar status do rastreamento"), ]
+    permissions = [ 
+      ("can_track", "Pode rastrear um pedido"),
+      ("can_add_track", "Pode atualizar status do rastreamento"), ]
