@@ -47,7 +47,11 @@
         <td>{{ pedido.total | localize }}</td>
         <td>{{ pedido.etapa }}</td>
         <td style="text-align: center;">
-          {% if can_confirm %}
+          {% if pedido.etapa == 'confirmado' %}
+          <a href="{% url 'venda:track' id=pedido.id %}" title="Rastreio do Pedido">
+            <i class="fa-solid fa-truck-fast"></i>
+          </a>
+          {% elif can_confirm %}
           {% if pedido.etapa == 'enviado' or pedido.etapa == 'criado' %}
           <a href="{% url 'venda:confirm' id=pedido.id %}" onclick="return confirm('Você tem certeza?')" title="Confirmar">
             <i class="fa fa-square-check"></i>

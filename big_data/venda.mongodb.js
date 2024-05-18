@@ -1,3 +1,8 @@
+db.venda_rastreio.find()
+// db.venda_rastreio.deleteMany({})
+// db.venda_rastreio.drop()
+db.venda_pedido.find()
+
 db.venda_representante.find().limit(1)
 db.venda_pedido.find().limit(1)
 

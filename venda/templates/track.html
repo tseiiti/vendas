@@ -1,316 +1,54 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
+<link rel="stylesheet" href="{% static 'track.css' %}">
 
-<div class="row">
-  <div class="col mx-2">
-    <div id="tracking-pre"></div>
+<div class="row border border-warning shadow m-2 mb-4">
+  <div class="col p-5">
+    <div id="tracking-pre"> Previsão da entrega: {{ rastreio.previsao }}</div>
+
     <div id="tracking">
       <div class="text-center tracking-status-intransit">
-        <p class="tracking-status text-tight">in transit</p>
+        <p class="tracking-status text-tight">{{ rastreio.etapa_atual }}</p>
       </div>
+
       <div class="tracking-list">
-        <div class="tracking-item">
-          <div class="tracking-icon status-intransit">
-            <i class="fas fa-circle"></i>
+        {% for etapa in rastreio.etapas_rastreio reversed %}
+          <div class="tracking-item">
+            <div class="tracking-icon {{ etapa.icon_color }}">
+              <i class="fa {{ etapa.icon }}"></i>
+            </div>
+            <div class="tracking-date">{{ etapa.horario | date:'d/m/Y' }}
+              <span>{{ etapa.horario | date:'h:i A' }}</span>
+            </div>
+            <div class="tracking-content">{{ etapa.titulo }}
+              <span>{{ etapa.descricao }}</span>
+            </div>
           </div>
-          <div class="tracking-date">Jul 19, 2023
-            <span>05:42 PM</span>
-          </div>
-          <div class="tracking-content">Delivery InfoUNABLE TO ACCESS
-            <span>KUALA LUMPUR (LOGISTICS HUB), MALAYSIA, MALAYSIA</span>
-          </div>
-        </div>
-        <div class="tracking-item">
-          <div class="tracking-icon status-outfordelivery">
-            <i class="fas fa-shipping-fast"></i>
-          </div>
-          <div class="tracking-date">Jul 19, 2023
-            <span>07:36 AM</span>
-          </div>
-          <div class="tracking-content">Shipment is out for despatch by KLHB023.
-            <span>KUALA LUMPUR (LOGISTICS HUB), MALAYSIA, MALAYSIA</span>
-          </div>
-        </div>
-        <div class="tracking-item">
-          <div class="tracking-icon status-intransit">
-            <i class="fas fa-circle"></i>
-          </div>
-          <div class="tracking-date">Jul 17, 2023
-            <span>10:54 AM</span>
-          </div>
-          <div class="tracking-content">Delivery InfoCLOSED-OFFICE/HOUSE CLOSED
-            <span>KUALA LUMPUR (LOGISTICS HUB), MALAYSIA, MALAYSIA</span>
-          </div>
-        </div>
-        <div class="tracking-item">
-          <div class="tracking-icon status-outfordelivery">
-            <i class="fas fa-shipping-fast"></i>
-          </div>
-          <div class="tracking-date">Jul 17, 2023
-            <span>08:08 AM</span>
-          </div>
-          <div class="tracking-content">Shipment is out for despatch by KLHB023.
-            <span>KUALA LUMPUR (LOGISTICS HUB), MALAYSIA, MALAYSIA</span>
-          </div>
-        </div>
-        <div class="tracking-item">
-          <div class="tracking-icon status-intransit">
-            <i class="fas fa-circle"></i>
-          </div>
-          <div class="tracking-date">Jul 16, 2023
-            <span>12:30 PM</span>
-          </div>
-          <div class="tracking-content">SHIPMENT DELAYCONSIGNEE NOT AVAILABLE
-            <span>KUALA LUMPUR (LOGISTICS HUB), MALAYSIA, MALAYSIA</span>
-          </div>
-        </div>
-        <div class="tracking-item">
-          <div class="tracking-icon status-intransit">
-            <i class="fas fa-circle"></i>
-          </div>
-          <div class="tracking-date">Jul 16, 2023
-            <span>12:06 PM</span>
-          </div>
-          <div class="tracking-content">Delivery InfoCLOSED-OFFICE/HOUSE CLOSED
-            <span>KUALA LUMPUR (LOGISTICS HUB), MALAYSIA, MALAYSIA</span>
-          </div>
-        </div>
-        <div class="tracking-item">
-          <div class="tracking-icon status-outfordelivery">
-            <i class="fas fa-shipping-fast"></i>
-          </div>
-          <div class="tracking-date">Jul 16, 2023
-            <span>08:32 AM</span>
-          </div>
-          <div class="tracking-content">Shipment is out for despatch by KLHB023.
-            <span>KUALA LUMPUR (LOGISTICS HUB), MALAYSIA, MALAYSIA</span>
-          </div>
-        </div>
-        <div class="tracking-item">
-          <div class="tracking-icon status-intransit">
-            <i class="fas fa-circle"></i>
-          </div>
-          <div class="tracking-date">Jul 14, 2023
-            <span>01:57 PM</span>
-          </div>
-          <div class="tracking-content">Delivery InfoMISSED DELIVERY
-            <span>KUALA LUMPUR (LOGISTICS HUB), MALAYSIA, MALAYSIA</span>
-          </div>
-        </div>
-        <div class="tracking-item">
-          <div class="tracking-icon status-outfordelivery">
-            <i class="fas fa-shipping-fast"></i>
-          </div>
-          <div class="tracking-date">Jul 14, 2023
-            <span>08:41 AM</span>
-          </div>
-          <div class="tracking-content">Shipment is out for despatch by KLHB023.
-            <span>KUALA LUMPUR (LOGISTICS HUB), MALAYSIA, MALAYSIA</span>
-          </div>
-        </div>
-        <div class="tracking-item">
-          <div class="tracking-icon status-intransit">
-            <i class="fas fa-circle"></i>
-          </div>
-          <div class="tracking-date">Jul 11, 2023
-            <span>05:22 PM</span>
-          </div>
-          <div class="tracking-content">Shipment designated to .
-            <span>KUALA LUMPUR (LOGISTICS HUB), MALAYSIA, MALAYSIA</span>
-          </div>
-        </div>
-        <div class="tracking-item">
-          <div class="tracking-icon status-intransit">
-            <i class="fas fa-circle"></i>
-          </div>
-          <div class="tracking-date">Jul 11, 2023
-            <span>10:32 AM</span>
-          </div>
-          <div class="tracking-content">Shipment arrived at KUALA LUMPUR (LOGISTICS HUB), MALAYSIA station.
-            <span>KUALA  LUMPUR (LOGISTICS HUB), MALAYSIA, MALAYSIA</span>
-          </div>
-        </div>
-        <div class="tracking-item">
-          <div class="tracking-icon status-inforeceived">
-            <i class="fas fa-clipboard-list"></i>
-          </div>
-          <div class="tracking-date">Jul 06, 2023
-            <span>02:02 PM</span>
-          </div>
-          <div class="tracking-content">Shipment designated to MALAYSIA.
-            <span>HONG KONG, HONGKONG</span>
-          </div>
-        </div>
+        {% endfor %}
       </div>
+
     </div>
   </div>
 </div>
 
-<style>
-  .tracking-detail {
-    padding: 3rem 0
-  }
+<form method="post">
+  {% csrf_token %}
+  <div class="row border border-warning shadow m-2 mb-4">
+    <div class="col p-5">
+      <h5 class="fw-bold text-warning">Inserir etapa</h5>
 
-  #tracking {
-    margin-bottom: 1rem
-  }
+      <select class="form-select mb-3" id="select-nova-etapa" name="select-nova-etapa">
+        <option value="" selected>Selecione a próxima etapa</option>
+        {% for etapa in etapas %}
+        <option value="{{ etapa.id }}">{{ etapa.id }} - {{ etapa.titulo }}</option>
+        {% endfor %}
+      </select>
+      <input type="submit" value="Salvar" class="btn btn-primary">
 
-  [class*=tracking-status-] p {
-    margin: 0;
-    font-size: 1.1rem;
-    color: #fff;
-    text-transform: uppercase;
-    text-align: center
-  }
+    </div>
+  </div>
+</form>
 
-  [class*=tracking-status-] {
-    padding: 1.6rem 0
-  }
-
-  .tracking-status-intransit {
-    background-color: #65aee0
-  }
-
-  .tracking-status-outfordelivery {
-    background-color: #f5a551
-  }
-
-  .tracking-status-deliveryoffice {
-    background-color: #f7dc6f
-  }
-
-  .tracking-status-delivered {
-    background-color: #4cbb87
-  }
-
-  .tracking-status-attemptfail {
-    background-color: #b789c7
-  }
-
-  .tracking-status-error,
-  .tracking-status-exception {
-    background-color: #d26759
-  }
-
-  .tracking-status-expired {
-    background-color: #616e7d
-  }
-
-  .tracking-status-pending {
-    background-color: #ccc
-  }
-
-  .tracking-status-inforeceived {
-    background-color: #214977
-  }
-
-  .tracking-list {
-    border: 1px solid #e5e5e5
-  }
-
-  .tracking-item {
-    border-left: 1px solid #e5e5e5;
-    position: relative;
-    padding: 2rem 1.5rem .5rem 2.5rem;
-    font-size: .9rem;
-    margin-left: 3rem;
-    min-height: 5rem
-  }
-
-  .tracking-item:last-child {
-    padding-bottom: 4rem
-  }
-
-  .tracking-item .tracking-date {
-    margin-bottom: .5rem
-  }
-
-  .tracking-item .tracking-date span {
-    color: #888;
-    font-size: 85%;
-    padding-left: .4rem
-  }
-
-  .tracking-item .tracking-content {
-    padding: .5rem .8rem;
-    background-color: #f4f4f4;
-    border-radius: .5rem
-  }
-
-  .tracking-item .tracking-content span {
-    display: block;
-    color: #888;
-    font-size: 85%
-  }
-
-  .tracking-item .tracking-icon {
-    line-height: 2.6rem;
-    position: absolute;
-    left: -1.3rem;
-    width: 2.6rem;
-    height: 2.6rem;
-    text-align: center;
-    border-radius: 50%;
-    font-size: 1.1rem;
-    background-color: #fff;
-    color: #fff
-  }
-
-  .tracking-item .tracking-icon.status-sponsored {
-    background-color: #f68
-  }
-
-  .tracking-item .tracking-icon.status-delivered {
-    background-color: #4cbb87
-  }
-
-  .tracking-item .tracking-icon.status-outfordelivery {
-    background-color: #f5a551
-  }
-
-  .tracking-item .tracking-icon.status-deliveryoffice {
-    background-color: #f7dc6f
-  }
-
-  .tracking-item .tracking-icon.status-attemptfail {
-    background-color: #b789c7
-  }
-
-  .tracking-item .tracking-icon.status-exception {
-    background-color: #d26759
-  }
-
-  .tracking-item .tracking-icon.status-inforeceived {
-    background-color: #214977
-  }
-
-  .tracking-item .tracking-icon.status-intransit {
-    color: #e5e5e5;
-    border: 1px solid #e5e5e5;
-    font-size: .6rem
-  }
-
-  @media(min-width:992px) {
-    .tracking-item {
-      margin-left: 10rem
-    }
-
-    .tracking-item .tracking-date {
-      position: absolute;
-      left: -10rem;
-      width: 7.5rem;
-      text-align: right
-    }
-
-    .tracking-item .tracking-date span {
-      display: block
-    }
-
-    .tracking-item .tracking-content {
-      padding: 0;
-      background-color: transparent
-    }
-  }
-</style>
 {% endblock %}

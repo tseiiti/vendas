@@ -88,12 +88,24 @@ class Pedido(models.Model):
     ]
 
 class Apriori(models.Model):
-  index = models.IntegerField()
   item_a = models.CharField(max_length = 255)
   item_b = models.CharField(max_length = 255)
   suporte = models.FloatField()
   confianca = models.FloatField()
   lift = models.FloatField()
-  ordering = ["-lift"]
+  ordering = ["-lift", "-suporte", "-confianca"]
   def __str__(self): return self.item_a + " > " + self.item_b
   
+class EtapaRastreio(models.Model):
+  id = models.IntegerField()
+  horario = models.DateTimeField("horário")
+  titulo = models.CharField(max_length = 255)
+  descricao = models.CharField(max_length = 255)
+  icon = models.CharField(max_length = 255)
+  class Meta: abstract = True
+
+class Rastreio(models.Model):
+  pedido = models.OneToOneField(Pedido, on_delete = models.RESTRICT)
+  previsao = models.DateTimeField("previsão da entrega")
+  etapa_atual = models.CharField(max_length = 255, default = "Separando os Produtos")
+  etapas_rastreio = models.ArrayField(model_container = EtapaRastreio)
