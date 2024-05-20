@@ -49,7 +49,7 @@ const atualiza_recomendacoes = () => {
           <tr>
             <td>${e.descricao}</td>
             <td>${e.marca}</td>
-            <td>${e.preco_venda}</td>
+            <td>${to_din(e.preco_venda)}</td>
           </tr>`
       })
       qs('#table-recomendacoes > tbody').innerHTML = html

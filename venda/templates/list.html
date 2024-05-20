@@ -49,29 +49,29 @@
         <td style="text-align: center;">
           {% if pedido.etapa == 'confirmado' %}
           <a href="{% url 'venda:track' id=pedido.id %}" title="Rastreio do Pedido">
-            <i class="fa-solid fa-truck-fast"></i>
+            <i class="fa-lg fa-solid fa-truck-fast"></i>
           </a>
           {% elif can_confirm %}
           {% if pedido.etapa == 'enviado' or pedido.etapa == 'criado' %}
-          <a href="{% url 'venda:confirm' id=pedido.id %}" onclick="return confirm('Você tem certeza?')" title="Confirmar">
-            <i class="fa fa-square-check"></i>
+          <a href="{% url 'venda:confirm' id=pedido.id %}" onclick="return confirm('Você tem certeza?')" title="Confirmar o Pedido">
+            <i class="fa fa-lg fa-square-check"></i>
           </a>
           {% endif %}
           {% elif pedido.etapa == 'criado' %}
-          <a href="{% url 'venda:send' id=pedido.id %}" onclick="return confirm('Você tem certeza?')" title="Enviar">
-            <i class="fa fa-paper-plane"></i>
+          <a href="{% url 'venda:send' id=pedido.id %}" onclick="return confirm('Você não poderá modificar mais o pedido, tem certeza?')" title="Enviar o Pedido">
+            <i class="fa fa-lg fa-paper-plane"></i>
           </a>
           {% endif %}
         </td>
         <td style="text-align: center;">
-          <a href="{% url 'venda:detail' id=pedido.id %}" title="Visualizar">
-            <i class="fa fa-eye" aria-hidden="true"></i>
+          <a href="{% url 'venda:detail' id=pedido.id %}" title="Visualizar o Pedido">
+            <i class="fa fa-lg fa-eye" aria-hidden="true"></i>
           </a>
         </td>
         <td style="text-align: center;">
           {% if pedido.etapa == 'criado' %}
           <a href="{% url 'venda:update' id=pedido.id %}" title="Editar">
-            <i class="fa fa-edit" aria-hidden="true"></i>
+            <i class="fa fa-lg fa-edit" aria-hidden="true"></i>
           </a>
           {% endif %}
         </td>

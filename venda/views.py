@@ -10,7 +10,7 @@ import random
 from .utils import Paginator, get_etapas
 from .models import Representante, Estoque, Pedido, Apriori, Rastreio
 
-size_page = 50
+size_page = 15
 
 @permission_required("venda.can_list")
 def list(request):
@@ -66,7 +66,7 @@ def track(request, id):
   if not rastreio:
     rastreio = Rastreio()
     rastreio.pedido = pedido
-    rastreio.previsao = timezone.now() + timedelta(days = random.randrange(4, 7))
+    rastreio.previsao = pedido.horario + timedelta(days = random.randrange(4, 7))
     rastreio.etapa_atual = etapas[1]["titulo"]
     rastreio.etapas_rastreio = [etapas[1]]
     rastreio.save()

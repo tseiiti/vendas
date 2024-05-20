@@ -3,7 +3,6 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'track.css' %}">
-<meta http-equiv="Refresh" content="5">
 
 <div class="row border border-warning shadow m-2 mb-4">
   <div class="col p-5">
@@ -30,7 +29,11 @@
 
       {% if rastreio.etapa_atual != "Pedido entregue!" %}
       <div class="fw-lighter fst-italic mt-3"> Previsão da entrega: {{ rastreio.previsao | date:'d/m/Y' }}</div>
+      <meta http-equiv="Refresh" content="5">
       {% endif %}
+    </div>
+    <div class="mt-3 me-2 float-end">
+      <a href="{% url 'venda:list' %}" class="btn btn-outline-secondary">Voltar</a>
     </div>
   </div>
 </div>
