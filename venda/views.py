@@ -241,15 +241,13 @@ def save_pedido(request, pedido):
 
   # produtos selecionados
   itens_pedido = []
-  i = 0
   for k in dict(post).keys():
     if "hidden-pedidos" in k:
-      i += 1
       estoque_id = k.replace("hidden-pedidos[", "").replace("]", "")
       est = Estoque.objects.get(id = estoque_id)
       qtd = int(post.get(k))
       itens_pedido.append({
-        "id": i,
+        "id": estoque_id,
         "produto": {
           "marca": est.marca,
           "categoria": est.categoria,
