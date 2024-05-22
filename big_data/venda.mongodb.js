@@ -2,18 +2,19 @@ db.venda_representante.find()
 db.venda_pedido.find()
 db.venda_rastreio.find()
 
-// db.venda_rastreio.deleteMany({})
-// db.venda_rastreio.drop()
-
-db.venda_representante.find().limit(1)
-db.venda_pedido.find().limit(1)
 
 db.venda_estoque.find().toArray()
 db.venda_representante.find().toArray()
 db.venda_pedido.find().toArray()
+db.venda_rastreio.find().toArray()
 db.venda_apriori.find().toArray()
 
 db.venda_pedido.find().count() // 4821
+
+// db.venda_rastreio.deleteMany({})
+// db.venda_rastreio.drop()
+
+
 
 db.venda_apriori.find({item_a: /p01.*p02/i})
 db.venda_apriori.find({item_a: /p01/i}).toArray()

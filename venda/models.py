@@ -41,7 +41,7 @@ class Representante(models.Model):
   nivel = models.CharField(max_length = 20, choices = niveis.choices)
   user = models.OneToOneField(User, on_delete = models.RESTRICT)
   def login(self): return self.user.username
-  def __str__(self): return self.user.username
+  def __str__(self): return self.nome
 
 
 
