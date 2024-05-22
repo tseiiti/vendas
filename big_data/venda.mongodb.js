@@ -3,11 +3,11 @@ db.venda_pedido.find()
 db.venda_rastreio.find()
 
 
-db.venda_estoque.find().toArray()
-db.venda_representante.find().toArray()
-db.venda_pedido.find().toArray()
-db.venda_rastreio.find().toArray()
-db.venda_apriori.find().toArray()
+db.venda_estoque.find({},{_id: 0}).toArray()
+db.venda_representante.find({},{_id: 0}).toArray()
+db.venda_pedido.find({},{_id: 0}).toArray()
+db.venda_rastreio.find({},{_id: 0}).toArray()
+db.venda_apriori.find({},{_id: 0}).toArray()
 
 db.venda_pedido.find().count() // 4821
 
