@@ -1,615 +1,585 @@
 [
   {
-    "_id": {
-      "$oid": "6643f2e81b3d203797729fab"
-    },
     "id": 2,
-    "nome": "Vitória da Mata",
-    "cpf": "394.856.270-92",
+    "nome": "Kamilly Martins",
+    "cpf": "216.375.890-77",
     "nivel": "pleno",
     "user_id": 2,
     "clientes": [
       {
         "id": 1,
-        "nome": "CAVALCANTI NASCIMENTO LTDA. E FILHOS",
-        "cnpj": "26.357.418/0001-44",
-        "contato": "Isabel Pereira",
-        "telefone": "+55 (071) 94917 7434",
-        "email": "rebecaaragao@example.com",
+        "nome": "DA ROSA S/A",
+        "cnpj": "40.632.795/0001-75",
+        "contato": "Laura Nunes",
+        "telefone": "+55 82 9 1873-0866",
+        "email": "brunogomes@example.com",
         "endereco": {
-          "logradouro": "Praia João Lucas Costa, 1",
-          "bairro": "Madri",
-          "cidade": "Duarte",
-          "estado": "RJ",
-          "cep": "32450000"
+          "logradouro": "Vereda de Rodrigues, 441",
+          "bairro": "Havaí",
+          "cidade": "Farias de das Neves",
+          "estado": "DF",
+          "cep": "31991-577"
         }
       },
       {
         "id": 2,
-        "nome": "ALVES S.A.",
-        "cnpj": "72.451.096/0001-15",
-        "contato": "Enzo Gabriel das Neves",
-        "telefone": "+55 (56) 99716 3600",
-        "email": "uribeiro@example.org",
+        "nome": "ALMEIDA LTDA.",
+        "cnpj": "53.042.679/0001-48",
+        "contato": "Alexandre Nascimento",
+        "telefone": "+55 27 95295-7732",
+        "email": "luiz-fernando32@example.net",
         "endereco": {
-          "logradouro": "Estrada Nascimento",
-          "bairro": "Vila Vista Alegre",
-          "cidade": "Correia Verde",
-          "estado": "ES",
-          "cep": "59959-829"
+          "logradouro": "Sítio de da Costa, 91",
+          "bairro": "Coqueiros",
+          "cidade": "Cunha das Flores",
+          "estado": "MT",
+          "cep": "07021068"
         }
       },
       {
         "id": 3,
-        "nome": "TEIXEIRA LTDA.",
-        "cnpj": "14.073.965/0001-19",
-        "contato": "Ana Sophia Farias",
-        "telefone": "+55 (25) 9 2037 9115",
-        "email": "mfarias@example.org",
+        "nome": "CASTRO S.A.",
+        "cnpj": "21.853.407/0001-31",
+        "contato": "Catarina da Paz",
+        "telefone": "+55 (21) 94010 9963",
+        "email": "ipinto@example.org",
         "endereco": {
-          "logradouro": "Fazenda Rezende, 75",
-          "bairro": "Vila São Geraldo",
-          "cidade": "Monteiro das Flores",
-          "estado": "RR",
-          "cep": "87588-976"
-        }
-      },
-      {
-        "id": 4,
-        "nome": "PINTO GOMES - ME LTDA.",
-        "cnpj": "15.376.480/0001-67",
-        "contato": "Carlos Eduardo Fogaça",
-        "telefone": "+55 74 9 2107-6637",
-        "email": "ada-paz@example.org",
-        "endereco": {
-          "logradouro": "Rua de Melo, 40",
-          "bairro": "Vila Coqueiral",
-          "cidade": "Peixoto de Oliveira",
-          "estado": "AC",
-          "cep": "60678389"
-        }
-      },
-      {
-        "id": 5,
-        "nome": "LIMA S/A S.A.",
-        "cnpj": "35.928.076/0001-66",
-        "contato": "Luna Araújo",
-        "telefone": "+55 (53) 95266 8734",
-        "email": "mgoncalves@example.net",
-        "endereco": {
-          "logradouro": "Morro Calebe Monteiro, 31",
-          "bairro": "Vila Calafate",
-          "cidade": "Azevedo",
-          "estado": "PA",
-          "cep": "19006754"
+          "logradouro": "Rodovia Guilherme da Rocha, 76",
+          "bairro": "Bernadete",
+          "cidade": "Novaes",
+          "estado": "AP",
+          "cep": "42313-884"
         }
       }
     ]
   },
   {
-    "_id": {
-      "$oid": "6643f2e81b3d203797729fac"
-    },
     "id": 3,
-    "nome": "Agatha da Mota",
-    "cpf": "184.250.697-85",
+    "nome": "Isabelly Duarte",
+    "cpf": "419.578.326-73",
     "nivel": "pleno",
     "user_id": 3,
     "clientes": [
       {
         "id": 1,
-        "nome": "GOMES - ME",
-        "cnpj": "49.732.685/0001-50",
-        "contato": "Maria Fernanda Barbosa",
-        "telefone": "+55 19 9 8302 4757",
-        "email": "laisferreira@example.com",
+        "nome": "PINTO S.A.",
+        "cnpj": "20.391.647/0001-07",
+        "contato": "Larissa Pires",
+        "telefone": "+55 (99) 9 6650-7350",
+        "email": "mcardoso@example.org",
         "endereco": {
-          "logradouro": "Jardim Lopes, 734",
-          "bairro": "Vila Aeroporto",
-          "cidade": "Caldeira das Pedras",
-          "estado": "CE",
-          "cep": "86027087"
-        }
-      },
-      {
-        "id": 2,
-        "nome": "FREITAS E FILHOS S/A",
-        "cnpj": "45.370.218/0001-76",
-        "contato": "Alana Peixoto",
-        "telefone": "+55 (96) 98425 1385",
-        "email": "avieira@example.com",
-        "endereco": {
-          "logradouro": "Recanto Azevedo, 20",
-          "bairro": "Alípio De Melo",
-          "cidade": "Melo",
-          "estado": "SE",
-          "cep": "24792-926"
-        }
-      },
-      {
-        "id": 3,
-        "nome": "DA MATA S.A.",
-        "cnpj": "17.809.452/0001-11",
-        "contato": "Sra. Eloah Ribeiro",
-        "telefone": "+55 (60) 95128-9559",
-        "email": "fernandocastro@example.net",
-        "endereco": {
-          "logradouro": "Colônia Silva, 20",
-          "bairro": "Mangueiras",
-          "cidade": "da Mata Alegre",
-          "estado": "SP",
-          "cep": "24516-277"
+          "logradouro": "Conjunto Viana",
+          "bairro": "Aparecida",
+          "cidade": "Porto de Vieira",
+          "estado": "PI",
+          "cep": "90176-453"
         }
       }
     ]
   },
   {
-    "_id": {
-      "$oid": "6643f2e81b3d203797729fad"
-    },
     "id": 4,
-    "nome": "Agatha Souza",
-    "cpf": "269.705.318-21",
+    "nome": "Luiz Otávio da Paz",
+    "cpf": "130.524.786-80",
     "nivel": "pleno",
     "user_id": 4,
     "clientes": [
       {
         "id": 1,
-        "nome": "JESUS S.A. - EI",
-        "cnpj": "03.572.614/0001-36",
-        "contato": "Dra. Evelyn da Cruz",
-        "telefone": "+55 (39) 9 2507-3864",
-        "email": "silveiradavi-lucas@example.org",
+        "nome": "BARROS DAS NEVES LTDA. - ME",
+        "cnpj": "60.748.213/0001-28",
+        "contato": "Enrico Araújo",
+        "telefone": "+55 (18) 93920 3156",
+        "email": "ana-carolinada-cunha@example.org",
         "endereco": {
-          "logradouro": "Lagoa Costa, 416",
-          "bairro": "Dom Silverio",
-          "cidade": "da Cruz do Campo",
-          "estado": "MG",
-          "cep": "47567236"
+          "logradouro": "Favela de Alves, 40",
+          "bairro": "Universitário",
+          "cidade": "Barros",
+          "estado": "AM",
+          "cep": "06076000"
         }
       },
       {
         "id": 2,
-        "nome": "PEREIRA GONÇALVES LTDA. LTDA.",
-        "cnpj": "07.132.895/0001-67",
-        "contato": "Lavínia Teixeira",
-        "telefone": "+55 (29) 96658-1730",
-        "email": "uda-costa@example.org",
+        "nome": "DA ROCHA S/A",
+        "cnpj": "52.813.469/0001-43",
+        "contato": "Bruno da Rocha",
+        "telefone": "+55 38 99321 4747",
+        "email": "teixeiraesther@example.com",
         "endereco": {
-          "logradouro": "Distrito Thomas Alves, 37",
-          "bairro": "Gameleira",
-          "cidade": "Silva Grande",
-          "estado": "PE",
-          "cep": "64265295"
-        }
-      },
-      {
-        "id": 3,
-        "nome": "CARVALHO LTDA. S.A.",
-        "cnpj": "27.416.850/0001-21",
-        "contato": "Danilo Pires",
-        "telefone": "+55 (77) 9 3265 6069",
-        "email": "joao-miguel55@example.net",
-        "endereco": {
-          "logradouro": "Campo Vieira, 84",
-          "bairro": "Glória",
-          "cidade": "Fogaça de da Luz",
-          "estado": "PE",
-          "cep": "33531301"
-        }
-      },
-      {
-        "id": 4,
-        "nome": "FARIAS COSTELA S/A S.A.",
-        "cnpj": "47.602.859/0001-34",
-        "contato": "Antônio Cunha",
-        "telefone": "+55 (03) 9 4940-1606",
-        "email": "isis58@example.net",
-        "endereco": {
-          "logradouro": "Feira Gonçalves, 72",
-          "bairro": "Vila Batik",
-          "cidade": "Almeida",
-          "estado": "AC",
-          "cep": "58092711"
-        }
-      },
-      {
-        "id": 5,
-        "nome": "DA CUNHA E FILHOS LTDA.",
-        "cnpj": "67.214.853/0001-05",
-        "contato": "Enzo Gabriel Carvalho",
-        "telefone": "+55 03 92486-6949",
-        "email": "danielgomes@example.org",
-        "endereco": {
-          "logradouro": "Viaduto de Campos, 6",
-          "bairro": "Vila Das Oliveiras",
-          "cidade": "Oliveira",
-          "estado": "SE",
-          "cep": "74126689"
+          "logradouro": "Morro de Almeida, 5",
+          "bairro": "Nova Cachoeirinha",
+          "cidade": "Carvalho Alegre",
+          "estado": "RR",
+          "cep": "15239-007"
         }
       }
     ]
   },
   {
-    "_id": {
-      "$oid": "6643f2e81b3d203797729fae"
-    },
     "id": 5,
-    "nome": "Lavínia Freitas",
-    "cpf": "279.453.681-82",
+    "nome": "Ana Lívia Vieira",
+    "cpf": "284.319.567-55",
     "nivel": "pleno",
     "user_id": 5,
     "clientes": [
       {
         "id": 1,
-        "nome": "COSTELA S.A.",
-        "cnpj": "78.165.230/0001-06",
-        "contato": "Sra. Bianca Sales",
-        "telefone": "+55 (83) 9 7349 1766",
-        "email": "da-cruzesther@example.org",
+        "nome": "DA MATA S.A.",
+        "cnpj": "97.302.861/0001-66",
+        "contato": "Luiza Novaes",
+        "telefone": "+55 (85) 9 0537-5046",
+        "email": "da-cruzbreno@example.org",
         "endereco": {
-          "logradouro": "Fazenda de Cardoso, 523",
-          "bairro": "Mala E Cuia",
-          "cidade": "das Neves",
-          "estado": "MS",
-          "cep": "20569-128"
+          "logradouro": "Alameda de Monteiro, 82",
+          "bairro": "Independência",
+          "cidade": "da Mata",
+          "estado": "DF",
+          "cep": "48416-834"
+        }
+      },
+      {
+        "id": 2,
+        "nome": "FREITAS S.A.",
+        "cnpj": "96.450.871/0001-86",
+        "contato": "Emilly Ramos",
+        "telefone": "+55 (094) 95634-6204",
+        "email": "ana-julia33@example.net",
+        "endereco": {
+          "logradouro": "Trecho Fernandes, 5",
+          "bairro": "Olaria",
+          "cidade": "Cardoso de Minas",
+          "estado": "PA",
+          "cep": "14626122"
+        }
+      },
+      {
+        "id": 3,
+        "nome": "CALDEIRA E FILHOS",
+        "cnpj": "62.834.079/0001-03",
+        "contato": "Maria Fernanda Barros",
+        "telefone": "+55 89 94642-2530",
+        "email": "arthurlopes@example.com",
+        "endereco": {
+          "logradouro": "Praia da Rocha, 85",
+          "bairro": "Floresta",
+          "cidade": "Azevedo das Flores",
+          "estado": "BA",
+          "cep": "37157-790"
+        }
+      },
+      {
+        "id": 4,
+        "nome": "DA ROCHA ROCHA - ME LTDA.",
+        "cnpj": "10.486.597/0001-80",
+        "contato": "Bruno da Cunha",
+        "telefone": "+55 (099) 91855-8693",
+        "email": "maria-claramoura@example.net",
+        "endereco": {
+          "logradouro": "Setor de da Cruz, 51",
+          "bairro": "Chácara Leonina",
+          "cidade": "Gomes",
+          "estado": "PR",
+          "cep": "60775308"
+        }
+      },
+      {
+        "id": 5,
+        "nome": "LOPES - ME",
+        "cnpj": "78.463.925/0001-66",
+        "contato": "Sophie Gomes",
+        "telefone": "+55 31 97597-2167",
+        "email": "mrodrigues@example.com",
+        "endereco": {
+          "logradouro": "Fazenda Maria Sophia Viana, 1",
+          "bairro": "São Damião",
+          "cidade": "Pinto",
+          "estado": "PR",
+          "cep": "13820-505"
         }
       }
     ]
   },
   {
-    "_id": {
-      "$oid": "6643f2e81b3d203797729faf"
-    },
     "id": 6,
-    "nome": "Larissa da Luz",
-    "cpf": "032.541.986-89",
+    "nome": "Esther Ferreira",
+    "cpf": "695.182.340-51",
     "nivel": "pleno",
     "user_id": 6,
     "clientes": [
       {
         "id": 1,
-        "nome": "NASCIMENTO LTDA. E FILHOS",
-        "cnpj": "73.965.081/0001-38",
-        "contato": "Nicolas Porto",
-        "telefone": "+55 05 97921-5171",
-        "email": "levi85@example.org",
+        "nome": "CARVALHO E FILHOS",
+        "cnpj": "08.317.269/0001-08",
+        "contato": "Maria Alice Souza",
+        "telefone": "+55 (04) 9 4160-1196",
+        "email": "leandrogoncalves@example.org",
         "endereco": {
-          "logradouro": "Sítio de Aragão, 10",
-          "bairro": "São Bernardo",
-          "cidade": "Duarte",
-          "estado": "PE",
-          "cep": "84746-707"
+          "logradouro": "Loteamento Alana Mendes, 72",
+          "bairro": "Dom Joaquim",
+          "cidade": "Campos Verde",
+          "estado": "AL",
+          "cep": "78885974"
         }
       },
       {
         "id": 2,
-        "nome": "DA MOTA S.A.",
-        "cnpj": "46.182.530/0001-07",
-        "contato": "Maria Sophia Mendes",
-        "telefone": "+55 (26) 95048 1664",
-        "email": "ycaldeira@example.com",
+        "nome": "CARVALHO S.A.",
+        "cnpj": "79.418.530/0001-04",
+        "contato": "Thiago Ramos",
+        "telefone": "+55 (02) 98374-0921",
+        "email": "wpires@example.org",
         "endereco": {
-          "logradouro": "Passarela Pires, 90",
-          "bairro": "Xodo-Marize",
-          "cidade": "das Neves Alegre",
-          "estado": "RR",
-          "cep": "78608477"
+          "logradouro": "Fazenda Guilherme Rodrigues, 50",
+          "bairro": "Conjunto Novo Dom Bosco",
+          "cidade": "Freitas",
+          "estado": "AC",
+          "cep": "76216-894"
+        }
+      },
+      {
+        "id": 3,
+        "nome": "ARAGÃO DA MOTA - EI E FILHOS",
+        "cnpj": "80.923.546/0001-53",
+        "contato": "Dra. Milena Pinto",
+        "telefone": "+55 38 9 9932-1065",
+        "email": "juan05@example.net",
+        "endereco": {
+          "logradouro": "Trecho Correia, 82",
+          "bairro": "São Marcos",
+          "cidade": "Carvalho",
+          "estado": "PI",
+          "cep": "15506-750"
+        }
+      },
+      {
+        "id": 4,
+        "nome": "PEIXOTO - EI",
+        "cnpj": "71.956.203/0001-02",
+        "contato": "Theo da Paz",
+        "telefone": "+55 (78) 91377 0191",
+        "email": "da-rochaana-julia@example.org",
+        "endereco": {
+          "logradouro": "Estação de Nunes, 918",
+          "bairro": "Vila Aeroporto",
+          "cidade": "Freitas",
+          "estado": "SC",
+          "cep": "08923-590"
+        }
+      },
+      {
+        "id": 5,
+        "nome": "CARVALHO - ME",
+        "cnpj": "15.284.630/0001-02",
+        "contato": "Bárbara Pereira",
+        "telefone": "+55 (14) 94994 6086",
+        "email": "nicolassilva@example.org",
+        "endereco": {
+          "logradouro": "Rua de Barros, 2",
+          "bairro": "Vila Paris",
+          "cidade": "Freitas de da Costa",
+          "estado": "PI",
+          "cep": "26785630"
         }
       }
     ]
   },
   {
-    "_id": {
-      "$oid": "6643f2e81b3d203797729fb0"
-    },
     "id": 7,
-    "nome": "Otávio Carvalho",
-    "cpf": "803.564.127-17",
+    "nome": "Catarina Pires",
+    "cpf": "598.610.732-21",
     "nivel": "pleno",
     "user_id": 7,
     "clientes": [
       {
         "id": 1,
-        "nome": "DA COSTA DA MATA - ME - ME",
-        "cnpj": "15.867.902/0001-05",
-        "contato": "João Miguel da Luz",
-        "telefone": "+55 (047) 93020-4155",
-        "email": "jesusstella@example.org",
+        "nome": "PEIXOTO NUNES LTDA. S/A",
+        "cnpj": "28.046.931/0001-40",
+        "contato": "João Vitor Castro",
+        "telefone": "+55 (068) 99693 4786",
+        "email": "ana-clara69@example.com",
         "endereco": {
-          "logradouro": "Vereda de Correia, 84",
-          "bairro": "São Bernardo",
-          "cidade": "Monteiro Paulista",
-          "estado": "SP",
-          "cep": "67450628"
+          "logradouro": "Residencial Moura, 936",
+          "bairro": "Ipe",
+          "cidade": "Lima",
+          "estado": "DF",
+          "cep": "86671-287"
         }
       },
       {
         "id": 2,
-        "nome": "FARIAS PEREIRA LTDA. S.A.",
-        "cnpj": "67.029.314/0001-98",
-        "contato": "Dr. Henrique Aragão",
-        "telefone": "+55 (027) 98320-1713",
-        "email": "ana-livia17@example.org",
+        "nome": "RODRIGUES - ME",
+        "cnpj": "76.283.014/0001-21",
+        "contato": "Marcos Vinicius Oliveira",
+        "telefone": "+55 (34) 9 4742 5093",
+        "email": "rda-conceicao@example.net",
         "endereco": {
-          "logradouro": "Lago Eduarda da Cruz, 29",
-          "bairro": "Caiçaras",
-          "cidade": "da Mata",
-          "estado": "GO",
-          "cep": "96657308"
+          "logradouro": "Recanto de Ferreira, 252",
+          "bairro": "Vila Da Luz",
+          "cidade": "Rodrigues",
+          "estado": "PB",
+          "cep": "15499049"
         }
       },
       {
         "id": 3,
-        "nome": "MOURA - EI - EI",
-        "cnpj": "46.819.527/0001-43",
-        "contato": "Dra. Giovanna Moura",
-        "telefone": "+55 (078) 98520-7416",
-        "email": "tda-mata@example.org",
+        "nome": "FERREIRA E FILHOS",
+        "cnpj": "09.582.631/0001-30",
+        "contato": "Helena Nunes",
+        "telefone": "+55 (67) 93228 5972",
+        "email": "emanuel62@example.com",
         "endereco": {
-          "logradouro": "Colônia de Castro, 40",
-          "bairro": "Vila De Sá",
-          "cidade": "Barbosa",
-          "estado": "AP",
-          "cep": "90863-281"
+          "logradouro": "Vila de Costa, 39",
+          "bairro": "Cdi Jatoba",
+          "cidade": "Porto",
+          "estado": "RO",
+          "cep": "46634535"
         }
       },
       {
         "id": 4,
-        "nome": "DA CONCEIÇÃO LTDA.",
-        "cnpj": "31.589.724/0001-46",
-        "contato": "Davi Lucca Souza",
-        "telefone": "+55 (71) 9 5419-4642",
-        "email": "hda-rosa@example.org",
+        "nome": "DUARTE S/A E FILHOS",
+        "cnpj": "91.826.705/0001-18",
+        "contato": "Vitor Barbosa",
+        "telefone": "+55 (54) 9 9672 1326",
+        "email": "pietra22@example.com",
         "endereco": {
-          "logradouro": "Praia Carvalho, 46",
-          "bairro": "Serra Verde",
-          "cidade": "Vieira de Gomes",
-          "estado": "RS",
-          "cep": "75895-889"
-        }
-      },
-      {
-        "id": 5,
-        "nome": "GOMES - EI E FILHOS",
-        "cnpj": "57.204.931/0001-29",
-        "contato": "Erick da Luz",
-        "telefone": "+55 (49) 90729-6459",
-        "email": "ana-claramoraes@example.org",
-        "endereco": {
-          "logradouro": "Loteamento de da Conceição",
-          "bairro": "Aparecida 7ª Seção",
-          "cidade": "Moura",
-          "estado": "AP",
-          "cep": "12856-492"
+          "logradouro": "Estação de Porto, 57",
+          "bairro": "Mariano De Abreu",
+          "cidade": "da Paz",
+          "estado": "PI",
+          "cep": "63887316"
         }
       }
     ]
   },
   {
-    "_id": {
-      "$oid": "6643f2e81b3d203797729fb1"
-    },
     "id": 8,
-    "nome": "Nicole Moura",
-    "cpf": "263.185.907-30",
+    "nome": "Breno Souza",
+    "cpf": "798.043.621-04",
     "nivel": "pleno",
     "user_id": 8,
     "clientes": [
       {
         "id": 1,
-        "nome": "ARAÚJO - EI LTDA.",
-        "cnpj": "62.985.413/0001-20",
-        "contato": "Rafael da Luz",
-        "telefone": "+55 97 9 1573-5364",
-        "email": "samuelbarbosa@example.com",
+        "nome": "CARDOSO - ME",
+        "cnpj": "89.263.147/0001-88",
+        "contato": "Gustavo Henrique Barros",
+        "telefone": "+55 (32) 9 9533-2406",
+        "email": "heitorcardoso@example.com",
         "endereco": {
-          "logradouro": "Jardim de Fernandes, 53",
-          "bairro": "Vila Nossa Senhora Do Rosário",
-          "cidade": "Teixeira",
-          "estado": "RJ",
-          "cep": "47595823"
+          "logradouro": "Rua de da Mota, 5",
+          "bairro": "Nossa Senhora Aparecida",
+          "cidade": "Nascimento",
+          "estado": "PE",
+          "cep": "16594246"
+        }
+      },
+      {
+        "id": 2,
+        "nome": "MOREIRA - ME - EI",
+        "cnpj": "17.950.628/0001-50",
+        "contato": "Evelyn Silveira",
+        "telefone": "+55 28 9 4495-6137",
+        "email": "luiz-otaviodias@example.com",
+        "endereco": {
+          "logradouro": "Lago Camila Porto, 59",
+          "bairro": "Acaba Mundo",
+          "cidade": "Souza de Mendes",
+          "estado": "MG",
+          "cep": "28622524"
+        }
+      },
+      {
+        "id": 3,
+        "nome": "AZEVEDO E FILHOS",
+        "cnpj": "83.706.912/0001-00",
+        "contato": "Antônio Sales",
+        "telefone": "+55 05 94524-8101",
+        "email": "caua82@example.com",
+        "endereco": {
+          "logradouro": "Colônia Freitas, 2",
+          "bairro": "Distrito Industrial Do Jatoba",
+          "cidade": "Lopes do Campo",
+          "estado": "BA",
+          "cep": "81594799"
         }
       }
     ]
   },
   {
-    "_id": {
-      "$oid": "6643f2e81b3d203797729fb2"
-    },
     "id": 9,
-    "nome": "João Silveira",
-    "cpf": "296.015.834-24",
+    "nome": "Bruna Santos",
+    "cpf": "395.287.106-03",
     "nivel": "pleno",
     "user_id": 9,
     "clientes": [
       {
         "id": 1,
-        "nome": "SILVEIRA E FILHOS LTDA.",
-        "cnpj": "64.952.180/0001-94",
-        "contato": "Sra. Raquel Costa",
-        "telefone": "+55 (22) 9 6656 5565",
-        "email": "julia95@example.net",
+        "nome": "FERNANDES LTDA.",
+        "cnpj": "41.726.308/0001-04",
+        "contato": "João Pedro Carvalho",
+        "telefone": "+55 (39) 98424 9140",
+        "email": "carvalhothomas@example.org",
         "endereco": {
-          "logradouro": "Recanto Silveira, 861",
-          "bairro": "Vila Santo Antônio",
-          "cidade": "da Mata de Fogaça",
+          "logradouro": "Pátio Teixeira, 303",
+          "bairro": "Alto Barroca",
+          "cidade": "Caldeira",
           "estado": "AL",
-          "cep": "50626-411"
+          "cep": "05366-847"
         }
       },
       {
         "id": 2,
-        "nome": "NOVAES S/A",
-        "cnpj": "74.193.682/0001-32",
-        "contato": "Cauê Costela",
-        "telefone": "+55 (52) 92516-1006",
-        "email": "psales@example.net",
+        "nome": "BARBOSA LTDA. LTDA.",
+        "cnpj": "38.401.529/0001-90",
+        "contato": "João Gabriel Gonçalves",
+        "telefone": "+55 (31) 91911 5719",
+        "email": "daniel02@example.net",
         "endereco": {
-          "logradouro": "Estrada Helena Peixoto, 18",
-          "bairro": "Conjunto Lagoa",
-          "cidade": "Cardoso",
-          "estado": "PB",
-          "cep": "89887141"
+          "logradouro": "Área Heitor Mendes, 436",
+          "bairro": "Vila Nova",
+          "cidade": "Teixeira",
+          "estado": "SE",
+          "cep": "44428-004"
         }
       },
       {
         "id": 3,
-        "nome": "CORREIA S.A.",
-        "cnpj": "45.938.201/0001-72",
-        "contato": "Eduarda da Paz",
-        "telefone": "+55 57 98878 7072",
-        "email": "joao-gabrielrodrigues@example.com",
+        "nome": "DA MATA S/A",
+        "cnpj": "17.243.805/0001-69",
+        "contato": "Yasmin das Neves",
+        "telefone": "+55 (69) 9 9219-0369",
+        "email": "saragao@example.org",
         "endereco": {
-          "logradouro": "Praça João Gabriel Ramos, 528",
-          "bairro": "Vila São Gabriel",
-          "cidade": "Santos",
-          "estado": "GO",
-          "cep": "27362-480"
+          "logradouro": "Largo Ana Clara Moraes, 71",
+          "bairro": "São José",
+          "cidade": "Nogueira",
+          "estado": "AP",
+          "cep": "35828-417"
         }
       }
     ]
   },
   {
-    "_id": {
-      "$oid": "6643f2e81b3d203797729fb3"
-    },
     "id": 10,
-    "nome": "Lara da Rocha",
-    "cpf": "691.827.405-85",
+    "nome": "João Vitor Ferreira",
+    "cpf": "254.901.678-58",
     "nivel": "pleno",
     "user_id": 10,
     "clientes": [
       {
         "id": 1,
-        "nome": "CARDOSO PIRES LTDA. S/A",
-        "cnpj": "38.720.164/0001-66",
-        "contato": "Luna das Neves",
-        "telefone": "+55 39 9 4951 9229",
-        "email": "emanuellada-cunha@example.net",
+        "nome": "TEIXEIRA FOGAÇA S/A S.A.",
+        "cnpj": "54.069.287/0001-35",
+        "contato": "João Pedro da Rosa",
+        "telefone": "+55 (087) 95605 0191",
+        "email": "emanuelcavalcanti@example.com",
         "endereco": {
-          "logradouro": "Área João Lucas Teixeira, 86",
-          "bairro": "União",
-          "cidade": "da Rocha",
-          "estado": "SE",
-          "cep": "31845735"
+          "logradouro": "Passarela Carvalho, 8",
+          "bairro": "Santa Sofia",
+          "cidade": "Barbosa",
+          "estado": "PE",
+          "cep": "38534-566"
         }
       },
       {
         "id": 2,
-        "nome": "DA MATA - EI",
-        "cnpj": "05.496.782/0001-15",
-        "contato": "Dra. Brenda Melo",
-        "telefone": "+55 90 9 1761-4263",
-        "email": "correiafelipe@example.org",
+        "nome": "DA MATA S.A. S/A",
+        "cnpj": "37.426.980/0001-07",
+        "contato": "Stephany Freitas",
+        "telefone": "+55 (29) 9 1984 5891",
+        "email": "rezendeluiza@example.org",
         "endereco": {
-          "logradouro": "Colônia Lívia Araújo, 27",
-          "bairro": "Jatobá",
-          "cidade": "Porto de Santos",
-          "estado": "SP",
-          "cep": "05018162"
+          "logradouro": "Praia Giovanna Melo",
+          "bairro": "Jardim Do Vale",
+          "cidade": "Jesus",
+          "estado": "PB",
+          "cep": "82921-535"
         }
       },
       {
         "id": 3,
-        "nome": "VIANA - ME",
-        "cnpj": "72.568.049/0001-56",
-        "contato": "Thales Cardoso",
-        "telefone": "+55 (10) 9 0859-0687",
-        "email": "raulda-costa@example.net",
+        "nome": "DUARTE LTDA. - ME",
+        "cnpj": "37.150.928/0001-62",
+        "contato": "Lucas Gabriel Oliveira",
+        "telefone": "+55 56 9 2299 9930",
+        "email": "ccardoso@example.com",
         "endereco": {
-          "logradouro": "Campo Luiza Vieira, 41",
-          "bairro": "Colégio Batista",
-          "cidade": "Castro do Galho",
-          "estado": "MG",
-          "cep": "52240908"
+          "logradouro": "Núcleo Sophie Farias, 75",
+          "bairro": "Serra Verde",
+          "cidade": "Mendes",
+          "estado": "AM",
+          "cep": "60135-936"
         }
       },
       {
         "id": 4,
-        "nome": "FREITAS BARROS S/A LTDA.",
-        "cnpj": "75.142.630/0001-08",
-        "contato": "Sophie Nunes",
-        "telefone": "+55 (70) 94731 4223",
-        "email": "brendafernandes@example.com",
+        "nome": "DA CONCEIÇÃO S/A LTDA.",
+        "cnpj": "97.826.530/0001-25",
+        "contato": "Isabella Cavalcanti",
+        "telefone": "+55 37 9 9936-9771",
+        "email": "xda-rosa@example.org",
         "endereco": {
-          "logradouro": "Pátio Cecília Teixeira",
-          "bairro": "Dom Cabral",
-          "cidade": "Ramos do Campo",
-          "estado": "BA",
-          "cep": "25908-270"
+          "logradouro": "Residencial de Vieira",
+          "bairro": "Outro",
+          "cidade": "Aragão da Serra",
+          "estado": "AM",
+          "cep": "47712-747"
         }
       }
     ]
   },
   {
-    "_id": {
-      "$oid": "6643f2e81b3d203797729fb4"
-    },
     "id": 11,
-    "nome": "Rafael Sales",
-    "cpf": "958.401.327-05",
+    "nome": "Guilherme Rodrigues",
+    "cpf": "352.170.968-02",
     "nivel": "pleno",
     "user_id": 11,
     "clientes": [
       {
         "id": 1,
-        "nome": "MONTEIRO S/A",
-        "cnpj": "39.725.108/0001-87",
-        "contato": "Joana Vieira",
-        "telefone": "+55 (98) 9 7372 8004",
-        "email": "sabrinada-conceicao@example.org",
+        "nome": "NASCIMENTO LTDA. - ME",
+        "cnpj": "91.427.360/0001-20",
+        "contato": "Cauê Jesus",
+        "telefone": "+55 93 94034-7380",
+        "email": "elisa82@example.com",
         "endereco": {
-          "logradouro": "Conjunto da Mota",
-          "bairro": "Grota",
-          "cidade": "Silva",
-          "estado": "PI",
-          "cep": "00315544"
+          "logradouro": "Campo Mariana Jesus, 856",
+          "bairro": "Jardinópolis",
+          "cidade": "Monteiro das Pedras",
+          "estado": "GO",
+          "cep": "23376829"
         }
       },
       {
         "id": 2,
-        "nome": "ROCHA NOVAES E FILHOS E FILHOS",
-        "cnpj": "90.268.573/0001-93",
-        "contato": "João Miguel Gonçalves",
-        "telefone": "+55 (17) 9 4817-2154",
-        "email": "mpires@example.org",
+        "nome": "SANTOS MORAES - EI S.A.",
+        "cnpj": "61.894.327/0001-49",
+        "contato": "Cauê Martins",
+        "telefone": "+55 (087) 93096-2077",
+        "email": "tsales@example.org",
         "endereco": {
-          "logradouro": "Condomínio de Duarte, 62",
-          "bairro": "Jatobá",
-          "cidade": "da Rosa",
-          "estado": "PR",
-          "cep": "39599-600"
+          "logradouro": "Lagoa de Aragão, 17",
+          "bairro": "Nova America",
+          "cidade": "Souza do Amparo",
+          "estado": "RO",
+          "cep": "90768-571"
         }
       },
       {
         "id": 3,
-        "nome": "MORAES S/A - ME",
-        "cnpj": "40.685.917/0001-91",
-        "contato": "Lorena Costa",
-        "telefone": "+55 (13) 94130-1035",
-        "email": "uporto@example.net",
+        "nome": "MOREIRA - ME S/A",
+        "cnpj": "78.532.906/0001-44",
+        "contato": "Olivia Jesus",
+        "telefone": "+55 (78) 91436 9281",
+        "email": "inunes@example.com",
         "endereco": {
-          "logradouro": "Chácara de Ferreira, 4",
-          "bairro": "São Damião",
-          "cidade": "Santos de Souza",
-          "estado": "RO",
-          "cep": "70354629"
-        }
-      },
-      {
-        "id": 4,
-        "nome": "DAS NEVES LTDA.",
-        "cnpj": "41.095.867/0001-55",
-        "contato": "Pietra Nogueira",
-        "telefone": "+55 34 9 5880-1709",
-        "email": "davi-luccagomes@example.net",
-        "endereco": {
-          "logradouro": "Núcleo Eduarda da Conceição",
-          "bairro": "Betânia",
-          "cidade": "Silva",
-          "estado": "PA",
-          "cep": "88979153"
+          "logradouro": "Setor de Lima, 3",
+          "bairro": "Luxemburgo",
+          "cidade": "da Mata",
+          "estado": "TO",
+          "cep": "43592528"
         }
       }
     ]
