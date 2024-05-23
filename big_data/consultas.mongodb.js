@@ -1,19 +1,24 @@
 // Consultas e Extração de Dados
 
-// Quantidade total de estoques
-db.venda_estoque.find().count()
+// amostras
+db.venda_estoque.findOne()
+db.venda_representante.findOne()
+db.venda_pedido.findOne()
+db.venda_rastreio.findOne()
+db.venda_apriori.findOne()
 
-// Quantidade total de representantes
-db.venda_representante.find().count()
 
 // Quantidade total de pedidos
 db.venda_pedido.find().count()
 
-// Quantidade total de rastreio
-db.venda_rastreio.find().count()
-
-// Quantidade total de apriori
-db.venda_apriori.find().count()
+// Quantidade de pedidos por ano
+db.venda_pedido.aggregate([
+  {$group: {
+    _id: {$year: "$horario"},
+    quantidade: {$count: {}},
+  }},
+  {$sort: {"_id": -1}},
+])
 
 // Quantidade de produto pedidos ("vendido") agrupado por marca
 db.venda_pedido.aggregate([
@@ -50,8 +55,18 @@ db.venda_pedido.aggregate([
 ])
 
 // Qual(is) o(s) produto(s) recomendado(s) para o usuário que compra "Secador de Parede 2000W Profissional" e "Dispenser Automático"
-let item_a = '.*'
+// versão sem o nome dos produtos
 let item_b = []
+db.venda_apriori.find({item_a: /.*17.*23.*/i}).forEach(e => {
+  e.item_b.split(',').forEach(b => {
+    item_b.push(parseInt(b.substring(1, 3)))
+  })
+})
+db.venda_estoque.find({id: {$in: item_b}})
+
+// versão com o nome dos produtos
+let item_a = '.*'
+item_b = []
 db.venda_estoque.find(
   {descricao: {$in: ["Secador de Parede 2000W Profissional", "Dispenser Automático"]}}
 ).forEach(e => {
@@ -64,8 +79,36 @@ db.venda_apriori.find({item_a: {"$regex": item_a}}).forEach(e => {
 })
 db.venda_estoque.find({id: {$in: item_b}})
 
-
-
+// média do tempo gasto com entrega
+db.venda_rastreio.aggregate([
+  {$project: {
+    "pedido_id": 1,
+    "etapa": {"$arrayElemAt": ["$etapas_rastreio", 2]},
+    "inicio": {"$min": "$etapas_rastreio.horario"},
+    "termino": {"$max": "$etapas_rastreio.horario"},
+  }},
+  {$project: {
+    "pedido_id": 1,
+    "transportadora": 
+      {$replaceAll: {
+        input: {$replaceAll: {
+          input: "$etapa.descricao",
+          find: "O pedido está sendo encaminhado à transportadora \"",
+          replacement: ""}},
+        find: "\" que irá realizar a entrega.",
+        replacement: ""}},
+    "tempo_gasto": {
+      $dateDiff: {
+        startDate: "$inicio",
+        endDate: "$termino",
+        unit: "hour"}},
+  }},
+  {$group: {
+    _id: "$transportadora",
+    quantidade: {$count: {}},
+    media: {$avg: "$tempo_gasto"},
+  }},
+])
 
 // Transformar um usuário em um representante
 db.auth_user.find({is_superuser: true}).forEach(user => {
