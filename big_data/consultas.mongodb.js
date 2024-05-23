@@ -24,17 +24,45 @@ db.venda_pedido.aggregate([
   }},
 ])
 
-// Faturamento agrupado por categoria por ano
+// Faturamento agrupado por categoria por ano ordenado por ano decrescente e categoria crescente
 db.venda_pedido.aggregate([
   {$unwind: "$itens_pedido"},
   {$group: {
     _id: {categoria: "$itens_pedido.produto.categoria", ano: {$year: "$horario"}},
     total: {$sum: "$itens_pedido.total"},
   }},
-  {$sort: {"ano": -1}},
+  {$sort: {"_id.ano": -1, "_id.categoria": 1}},
 ])
 
-db.venda_pedido.find()
+// Representantes que mais venderam
+db.venda_pedido.aggregate([
+  {$lookup: {
+    from: "venda_representante",
+    localField: "representante_id",
+    foreignField: "id",
+    as: "representante"}},
+  {$group: {
+    _id: "$representante.nome",
+    quantidade: {$count: {}},
+    total: {$sum: "$total"},
+  }},
+  {$sort: {"total": -1}},
+])
+
+// Qual(is) o(s) produto(s) recomendado(s) para o usuário que compra "Secador de Parede 2000W Profissional" e "Dispenser Automático"
+let item_a = '.*'
+let item_b = []
+db.venda_estoque.find(
+  {descricao: {$in: ["Secador de Parede 2000W Profissional", "Dispenser Automático"]}}
+).forEach(e => {
+  item_a += e.id.toString().padStart(2, '0') + '.*'
+})
+db.venda_apriori.find({item_a: {"$regex": item_a}}).forEach(e => {
+  e.item_b.split(',').forEach(b => {
+    item_b.push(parseInt(b.substring(1, 3)))
+  })
+})
+db.venda_estoque.find({id: {$in: item_b}})
 
 
 
