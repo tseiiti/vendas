@@ -1,14 +1,25 @@
 services:
-  mongo:
+  mongodb:
     image: mongo:7.0.9
-    restart: always
-    container_name: mongo_7_0_9
     ports:
       - 27017:27017
     volumes:
-      - .:/vendas
       - mongo_data:/etc/mongo
       - mongo_data:/data/db
+      
+  django: 
+    build: .
+    # command: python
+    # stdin_open: true
+    # tty: true
+    environment:
+      - DATABASE_HOST=mongodb://mongodb:27017
+    volumes:
+      - .:/vendas
+    ports:
+      - 8000:8000
+    depends_on:
+      - mongodb
 
 volumes:
   mongo_data: {}
