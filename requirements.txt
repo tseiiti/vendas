@@ -3,19 +3,7 @@ asgiref==3.8.1
 dnspython==2.6.1
 sqlparse==0.2.4
 typing_extensions==4.11.0
-# Django==4.1.13
 Django==3.1.12
-# pymongo==4.7.1
 pymongo==3.12.3
 pytz==2024.1
-Faker==25.0.1
 setuptools==70.0.0
-
-# pip uninstall -y asgiref
-# pip uninstall -y Django
-# pip uninstall -y dnspython
-# pip uninstall -y pymongo
-# pip uninstall -y djongo
-# pip uninstall -y pytz
-# pip uninstall -y sqlparse
-# pip uninstall -y typing_extensions

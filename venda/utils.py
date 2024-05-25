@@ -6,7 +6,7 @@ class Paginator():
   def __init__(self, objects, size_page):
     self.objects = objects
     self.size_page = size_page
-    self.length = len(objects)
+    self.length = objects.count()
     self.length = int(self.length / size_page) + (self.length % size_page > 0)
 
   def set_page(self, page):
