@@ -110,6 +110,10 @@ db.venda_rastreio.aggregate([
   }},
 ])
 
+
+//STE TESTANDO!!!!!!!!!!!!!!!!
+
+
 // Transformar um usuário em um representante
 db.auth_user.find({is_superuser: true}).forEach(user => {
   let representante = db.venda_representante.findOne({id: user.id})
