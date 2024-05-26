@@ -8,6 +8,11 @@ db.venda_rastreio.findOne()
 db.venda_apriori.findOne()
 
 
+
+/*****************************************
+* 11. Implementação de Consultas ao Banco 
+******************************************/
+
 // Quantidade total de pedidos
 db.venda_pedido.find().count()
 
@@ -20,7 +25,7 @@ db.venda_pedido.aggregate([
   {$sort: {"_id": -1}},
 ])
 
-// Quantidade de produto pedidos ("vendido") agrupado por marca
+// Quantidade de produto pedidos ("vendas") agrupado por marca
 db.venda_pedido.aggregate([
   {$unwind: "$itens_pedido"},
   {$group: {
@@ -54,31 +59,6 @@ db.venda_pedido.aggregate([
   {$sort: {"total": -1}},
 ])
 
-// Qual(is) o(s) produto(s) recomendado(s) para o usuário que compra "Secador de Parede 2000W Profissional" e "Dispenser Automático"
-// versão sem o nome dos produtos
-let item_b = []
-db.venda_apriori.find({item_a: /.*17.*23.*/i}).forEach(e => {
-  e.item_b.split(',').forEach(b => {
-    item_b.push(parseInt(b.substring(1, 3)))
-  })
-})
-db.venda_estoque.find({id: {$in: item_b}})
-
-// versão com o nome dos produtos
-let item_a = '.*'
-item_b = []
-db.venda_estoque.find(
-  {descricao: {$in: ["Secador de Parede 2000W Profissional", "Dispenser Automático"]}}
-).forEach(e => {
-  item_a += e.id.toString().padStart(2, '0') + '.*'
-})
-db.venda_apriori.find({item_a: {"$regex": item_a}}).forEach(e => {
-  e.item_b.split(',').forEach(b => {
-    item_b.push(parseInt(b.substring(1, 3)))
-  })
-})
-db.venda_estoque.find({id: {$in: item_b}})
-
 // média do tempo gasto com entrega
 db.venda_rastreio.aggregate([
   {$project: {
@@ -110,7 +90,6 @@ db.venda_rastreio.aggregate([
   }},
 ])
 
-
 //clientes que mais compraram nos últimos 6 meses 
 let semestre = new Date() 
 semestre.setMonth(semestre.getMonth() - 6) 
@@ -123,6 +102,48 @@ db.venda_pedido.aggregate([
   {$sort: {"quantidade": -1}}, 
 ]) 
 
+
+
+/*****************************************
+* 12. Extração de Dados Operacionais 
+******************************************/
+
+// Quem são os clientes do representante "Kamilly Martins"
+db.venda_representante.find({nome: /Kamilly.*Martins/i}, {_id: 0, "clientes": 1})
+
+// Quais os produtos disponíveis no estoque
+db.venda_estoque.find({"quantidade": {$gt: 0}})
+
+// Visualizar o último pedido do representante de id 6
+db.venda_pedido.find({"representante_id": 6}).sort({id: -1}).limit(1)
+
+// Rastrear a etapa atual e a previsão de entrega do pedido 4877
+db.venda_rastreio.find({id: 4877}, {_id: 0, etapa_atual: 1, previsao: 1})
+
+// Qual(is) o(s) produto(s) recomendado(s) para o usuário que compra "Secador de Parede 2000W Profissional" e "Dispenser Automático"
+// versão sem o nome dos produtos
+let item_b = []
+db.venda_apriori.find({item_a: /.*17.*23.*/i}).forEach(e => {
+  e.item_b.split(',').forEach(b => {
+    item_b.push(parseInt(b.substring(1, 3)))
+  })
+})
+db.venda_estoque.find({id: {$in: item_b}})
+
+// versão com o nome dos produtos
+let item_a = '.*'
+item_b = []
+db.venda_estoque.find(
+  {descricao: {$in: ["Secador de Parede 2000W Profissional", "Dispenser Automático"]}}
+).forEach(e => {
+  item_a += e.id.toString().padStart(2, '0') + '.*'
+})
+db.venda_apriori.find({item_a: {"$regex": item_a}}).forEach(e => {
+  e.item_b.split(',').forEach(b => {
+    item_b.push(parseInt(b.substring(1, 3)))
+  })
+})
+db.venda_estoque.find({id: {$in: item_b}})
 
 // Transformar um usuário em um representante
 db.auth_user.find({is_superuser: true}).forEach(user => {
