@@ -111,7 +111,17 @@ db.venda_rastreio.aggregate([
 ])
 
 
-
+//clientes que mais compraram nos últimos 6 meses 
+let semestre = new Date() 
+semestre.setMonth(semestre.getMonth() - 6) 
+db.venda_pedido.aggregate([ 
+  {$match: {"horario": {$gte: semestre}}}, 
+  {$group: { 
+    _id: "$cliente", 
+    quantidade: {$count: {}}, 
+  }}, 
+  {$sort: {"quantidade": -1}}, 
+]) 
 
 
 // Transformar um usuário em um representante
