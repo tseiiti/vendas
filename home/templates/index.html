@@ -8,6 +8,26 @@
   <p><a href="/venda/apriori?item_a=P01,P02">Exemplo Apriori</a></p>
 </div>
 
+<hr class="my-4 mx-2">
+
+<div class="row m-0">
+  <form method="get">
+    <h5>Rastrear</h5>
+    <div class="col-2">
+      <input type="number" id="form_input_id" class="form-control mb-3" value="">
+    </div>
+    <button class="btn btn-primary shadow" type="button" onclick="track()">Track</button>
+  </form>
+  <script>
+    const track = () => {
+      let form = qs('form')
+      let id = qs('#form_input_id').value
+      form.action = `/venda/${id}/track`
+      form.submit()
+    }
+  </script>
+</div>
+
 <hr class="my-5 mx-2">
 
 <div class="row border border-warning shadow m-2 mb-4">
