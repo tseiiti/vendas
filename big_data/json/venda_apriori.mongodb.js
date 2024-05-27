@@ -1,5 +1,5 @@
-db.venda_rastreio.drop()
-db.venda_rastreio.insertMany([
+db.venda_apriori.drop()
+db.venda_apriori.insertMany([
   {
     "id": 168,
     "item_a": "P05",
