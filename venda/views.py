@@ -45,7 +45,7 @@ def create(request):
 
 @permission_required("venda.can_update")
 def update(request, id):
-  context = get_context(request, "Alterar Pedido", id)
+  context = get_context(request, f"Alterar Pedido - {id}", id)
   if request.method == "GET":
     return render(request, "update.html", context)
   else:
@@ -54,7 +54,7 @@ def update(request, id):
 
 @permission_required("venda.can_detail")
 def detail(request, id):
-  context = get_context(request, "Visualizar Pedido", id)
+  context = get_context(request, f"Visualizar Pedido - {id}", id)
   return render(request, "detail.html", context)
 
 @permission_required("venda.can_track")
@@ -85,13 +85,14 @@ def track(request, id):
 
   can_add_track = request.user.has_perm('venda.can_add_track')
   context = {
-    "title": "Rastrear Pedido",
+    "title": f"Rastrear Pedido - {id}",
     "etapas": etapas[rastreio.etapas_rastreio[-1]["id"] + 1:],
     "pedido": pedido,
     "rastreio": rastreio,
     "can_add_track": can_add_track,
   }
   return render(request, "track.html", context)
+
 
 
 #################

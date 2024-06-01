@@ -30,3 +30,9 @@ carga_pedidos.ipynb
 carga_apriori.ipynb
 
 ### Criar grupos Gerentes e Representantes
+
+### Docker
+docker compose up --build -d
+docker cp big_data/dump/ vendas-mongodb-1:/
+docker exec -it vendas-mongodb-1 bash
+mongorestore --uri "mongodb://localhost:27017" --gzip ./dump/
