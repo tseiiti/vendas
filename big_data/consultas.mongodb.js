@@ -8,7 +8,6 @@ db.venda_rastreio.findOne()
 db.venda_apriori.findOne()
 
 
-
 /*****************************************
 * 11. Implementação de Consultas ao Banco 
 ******************************************/
