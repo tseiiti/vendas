@@ -244,3 +244,47 @@ db.auth_user.find({is_superuser: true}).forEach(user => {
     })
   }
 })
+
+
+/*****************************************
+* Cadastrar um novo usuário e representante
+******************************************/
+db.auth_user.find()
+db.venda_representante.find()
+//db.venda_pedido.find()
+db.getCollection("__schema__").find()
+
+db.auth_user.insertOne({
+  "id": 12,
+  "password": "",
+  "username": "teste",
+  "first_name": "Teste",
+  "email": "teste@example.com",
+  "is_staff": true,
+  "is_active": true,
+})
+
+db.venda_representante.insertOne({
+  "id": 12,
+  "nome": "Teste",
+  "cpf": "012.345.678-90",
+  "nivel": "pleno",
+  "user_id": 12,
+  "clientes": [
+    {
+      'id': 1,
+      'nome': 'TESTE LTDA.',
+      'cnpj': '12.345.678/0001-90',
+      'contato': 'Teste',
+      'telefone': '+55 11 9 9999 9999',
+      'email': 'teste@example.org',
+      'endereco': {
+        'logradouro': 'Rua Teste, 1',
+        'bairro': 'Teste',
+        'cidade': 'Teste',
+        'estado': 'TE',
+        'cep': '99999-999'
+      }
+    }
+  ]
+})
