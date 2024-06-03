@@ -24,12 +24,14 @@ def list(request):
   pag = Paginator(pedidos, size_page)
   pag.set_page(request.GET.get("p"))
   
+  message = request.GET.get("message")
   context = {
     "title": "Listar Pedidos",
     "representante": representante,
     "pedidos": pag.page_objects(),
     "pages": pag.pages(),
-    "message": request.GET.get("message"),
+    "message": message,
+    "alert_color": "alert-success" if message and "sucesso" in message else "alert-danger",
     "can_confirm": can_confirm,
   }
   return render(request, "list.html", context)
@@ -106,27 +108,27 @@ def send(request, id):
     id = id,
     representante = representante,
     etapa = Pedido.etapas.criado).first()
+  message = "Pedido não encontrado"
   if pedido:
     pedido.etapa = Pedido.etapas.enviado
     pedido.horario = timezone.now()
     pedido.save()
     add_etapa(pedido, request.user)
+    message = "Pedido enviado com sucesso!"
     if representante.user.has_perm('venda.can_confirm') \
       or (representante.nivel == Representante.niveis.confirmado) \
       or (representante.nivel == Representante.niveis.senior and pedido.total < 15000) \
       or (representante.nivel == Representante.niveis.pleno and pedido.total < 5000) \
       or (representante.nivel == Representante.niveis.junior and pedido.total < 500):
-      confirmar(pedido, request.user)
-    return redirect(f"/venda/list?message=Pedido {pedido.etapa} com sucesso!")
-  return redirect("venda:list")
+      message = confirmar(pedido, request.user)
+  return redirect(f"/venda/list?message={message}")
 
 @permission_required("venda.can_confirm")
 def confirm(request, id):
   pedido = Pedido.objects.filter(id = id).first()
-  if pedido:
-    confirmar(pedido, request.user)
-    return redirect(f"/venda/list?message=Pedido confirmado com sucesso!")
-  return redirect("venda:list")
+  message = "Pedido não encontrado"
+  if pedido: message = confirmar(pedido, request.user)
+  return redirect(f"/venda/list?message={message}")
 
 def apriori(request):
   item_a = request.GET.get("item_a")
@@ -198,21 +200,17 @@ def get_context(request, title, id = None):
 
 def confirmar(pedido, user):
   # envio de saída para o sistema de estoque
-  valido = True
   for item in pedido.itens_pedido:
     estoque = Estoque.objects.filter(id = item["id"]).first()
     if estoque.quantidade - item["quantidade"] < 0:
-      valido = False
+      pedido.etapa = Pedido.etapas.rejeitado
+      add_etapa(pedido, user)
+      return f"Pedido rejeitado por falta do produto {estoque.descricao}"
 
-  if valido:
-    for item in pedido.itens_pedido:
-      estoque = Estoque.objects.filter(id = item["id"]).first()
-      estoque.quantidade -= item["quantidade"]
-      estoque.save()
-  else:
-    pedido.etapa = Pedido.etapas.rejeitado
-    add_etapa(pedido, user)
-    return
+  for item in pedido.itens_pedido:
+    estoque = Estoque.objects.filter(id = item["id"]).first()
+    estoque.quantidade -= item["quantidade"]
+    estoque.save()
 
   # envio para sistema financeiro
 
@@ -222,6 +220,7 @@ def confirmar(pedido, user):
   pedido.horario = timezone.now()
   pedido.save()
   add_etapa(pedido, user)
+  return "Pedido confirmado com sucesso!"
 
 def save_pedido(request, pedido):
   # criar ou alterar o pedido somente na etapa de "criado"

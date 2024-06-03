@@ -9,7 +9,7 @@
 </div>
 
 {% if message %}
-<div class="alert alert-success alert-dismissible position-absolute top-0 start-50 translate-middle-x mt-5 shadow-lg" onclick="close()">
+<div class="alert {{ alert_color }} alert-dismissible position-absolute top-0 start-50 translate-middle-x mt-5 shadow-lg" onclick="close()">
   <div class="m-2">{{ message }}</div>
   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>
@@ -19,7 +19,7 @@
   }
   setTimeout(() => {
     close()
-  }, 5000)
+  }, 7000)
 </script>
 {% endif %}
 
@@ -39,7 +39,7 @@
     </thead>
     <tbody class="table-group-divider">
       {% for pedido in pedidos %}
-      <tr class="{% if pedido.etapa == 'rejeitado' %}bg-danger-subtle{% endif %}">
+      <tr class="{% if pedido.etapa == 'rejeitado' %}table-danger{% endif %}">
         <th scope="row">{{ pedido.id }}</th>
         <td>{{ pedido.representante.nome }}</td>
         <td>{{ pedido.cliente.nome }}</td>
