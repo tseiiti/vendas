@@ -39,7 +39,7 @@
     </thead>
     <tbody class="table-group-divider">
       {% for pedido in pedidos %}
-      <tr class="{% if pedido.etapa == 'rejeitado' %}table-danger{% endif %}">
+      <tr class="{% if pedido.etapa == 'criado' %}table-success{% elif pedido.etapa == 'rejeitado' %}table-danger{% endif %}">
         <th scope="row">{{ pedido.id }}</th>
         <td>{{ pedido.representante.nome }}</td>
         <td>{{ pedido.cliente.nome }}</td>
